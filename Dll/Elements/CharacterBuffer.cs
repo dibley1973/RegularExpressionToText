@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.CodeDom;
 
 namespace Elements
 {
@@ -22,8 +23,8 @@ namespace Elements
         {
             get
             {
-                return Index == Length 
-                    ? NullCharacter 
+                return Index == Length
+                    ? NullCharacter
                     : Data[Index];
             }
         }
@@ -58,12 +59,13 @@ namespace Elements
         private int Index { get; set; }
 
         /// <summary>
-        /// Gets a value indicating whether this instance is at beginning.
+        /// Gets a value indicating whether this instance is at start.
         /// </summary>
         /// <value>
-        /// <c>true</c> if this instance is at beginning; otherwise, <c>false</c>.
+        /// <c>true</c> if this instance is at start; otherwise, <c>false</c>.
         /// </value>
-        public bool IsAtBeginning {
+        public bool IsAtStart
+        {
             get { return Index == 0; }
         }
 
@@ -104,8 +106,8 @@ namespace Elements
         {
             get
             {
-                return IsAtBeginning 
-                    ? NullCharacter 
+                return IsAtStart
+                    ? NullCharacter
                     : Data[Index - 1];
             }
         }
@@ -121,7 +123,7 @@ namespace Elements
         /// <exception cref="System.ArgumentNullException">data</exception>
         public CharacterBuffer(string data)
         {
-            if(string.IsNullOrEmpty(data)) throw new ArgumentNullException("data");
+            if (string.IsNullOrEmpty(data)) throw new ArgumentNullException("data");
 
             SetData(data);
             SetDataLength(data);
@@ -138,9 +140,49 @@ namespace Elements
         /// <returns></returns>
         public string GetToEnd()
         {
-            return IsAtEnd 
-                ? string.Empty 
+            return IsAtEnd
+                ? string.Empty
                 : new string(Data, Index, Length - Index);
+        }
+
+        /// <summary>
+        /// Moves the next.
+        /// </summary>
+        /// <returns></returns>
+        public bool MoveNext()
+        {
+            if (IsAtEnd) return false;
+
+            SetIndex(Index + 1);
+            return true;
+        }
+
+        /// <summary>
+        /// Moves the previous.
+        /// </summary>
+        /// <returns></returns>
+        public bool MovePrevious()
+        {
+            if (IsAtStart) return false;
+
+            SetIndex(Index - 1);
+            return true;
+        }
+
+        /// <summary>
+        /// Moves to start.
+        /// </summary>
+        public void MoveToStart()
+        {
+            Index = 0;
+        }
+
+        /// <summary>
+        /// Moves to end.
+        /// </summary>
+        public void MoveToEnd()
+        {
+            Index = Length;
         }
 
         /// <summary>
@@ -167,9 +209,46 @@ namespace Elements
         /// <param name="index">The index.</param>
         private void SetIndex(int index)
         {
-            if(index < 0) throw new ArgumentOutOfRangeException("index");
+            if (index < 0) throw new ArgumentOutOfRangeException("index");
 
             Index = index;
+        }
+
+        /// <summary>
+        /// Retrieves a substring from this instance. The substring starts at
+        /// a specified character position and has a specified length.
+        /// </summary>
+        /// <param name="startIndex">
+        /// The zero-based starting character position of a substring in this instance.</param>
+        /// <param name="length">
+        /// The number of characters in the substring.</param>
+        /// <returns>
+        /// A string that is equivalent to the substring of length length that begins
+        /// at startIndex in this instance, or System.String.Empty if startIndex is
+        /// equal to the length of this instance and length is zero.
+        /// </returns>
+        /// <exception cref="System.ArgumentOutOfRangeException">
+        /// startIndex;startIndex must be zero or greater
+        /// or
+        /// length;The length when added to the startIndex must be less than the length of the buffer
+        /// </exception>
+        public string Substring(int startIndex, int length)
+        {
+            if(startIndex < 0) throw new ArgumentOutOfRangeException("startIndex", startIndex, "startIndex must be zero or greater");
+            if (startIndex + length > Length) throw new ArgumentOutOfRangeException("length", length, "The length when added to the startIndex must be less than the length of the buffer");
+
+            return new string(Data, startIndex, length);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this instance.
+        /// </returns>
+        public override string ToString()
+        {
+            return new string(Data);
         }
 
         #endregion
