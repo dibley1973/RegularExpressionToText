@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 
 namespace Elements
 {
@@ -7,11 +6,27 @@ namespace Elements
     {
         #region Fields
 
-        private const string NullCharacter = "\0";
+        public const char NullCharacter = '\0';
 
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the current character.
+        /// </summary>
+        /// <value>
+        /// The current character.
+        /// </value>
+        public char CurrentCharacter
+        {
+            get
+            {
+                return Index == Length 
+                    ? NullCharacter 
+                    : Data[Index];
+            }
+        }
 
         /// <summary>
         /// Gets the current index postition.
@@ -24,18 +39,75 @@ namespace Elements
             get { return Index; }
         }
 
-        // Consider storing the data as an array as there
-        // could be many ToCharArray() calls!
-        protected string Data { get; private set; }
+        /// <summary>
+        /// Gets or sets the underlying data.
+        /// </summary>
+        /// <value>
+        /// The data.
+        /// </value>
+        private char[] Data { get; set; }
 
+        /// <summary>
+        /// Gets the length.
+        /// </summary>
+        /// <value>
+        /// The length.
+        /// </value>
+        public int Length { get; private set; }
 
+        private int Index { get; set; }
 
-        public int DataLength { get; private set; }
-        protected int Index { get; private set; }
+        /// <summary>
+        /// Gets a value indicating whether this instance is at beginning.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if this instance is at beginning; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsAtBeginning {
+            get { return Index == 0; }
+        }
 
+        /// <summary>
+        /// Gets a value indicating whether this instance is at end.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if this instance is at end; otherwise, <c>false</c>.
+        /// </value>
         public bool IsAtEnd
         {
-            get { return Index == DataLength; }
+            get { return Index == Length; }
+        }
+
+        /// <summary>
+        /// Gets the next character.
+        /// </summary>
+        /// <value>
+        /// The next character.
+        /// </value>
+        public char NextCharacter
+        {
+            get
+            {
+                return IsAtEnd
+                    ? NullCharacter
+                    : Data[Index + 1];
+            }
+        }
+
+        /// <summary>
+        /// Gets the previous character.
+        /// </summary>
+        /// <value>
+        /// The previous character.
+        /// </value>
+        public char PreviousCharacter
+        {
+            get
+            {
+                return IsAtBeginning 
+                    ? NullCharacter 
+                    : Data[Index - 1];
+            }
         }
 
         #endregion
@@ -66,7 +138,9 @@ namespace Elements
         /// <returns></returns>
         public string GetToEnd()
         {
-            return IsAtEnd ? string.Empty : Data.Substring(Index);
+            return IsAtEnd 
+                ? string.Empty 
+                : new string(Data, Index, Length - Index);
         }
 
         /// <summary>
@@ -75,7 +149,7 @@ namespace Elements
         /// <param name="data">The data.</param>
         private void SetData(string data)
         {
-            Data = data;
+            Data = data.ToCharArray();
         }
 
         /// <summary>
@@ -84,7 +158,7 @@ namespace Elements
         /// <param name="data">The data.</param>
         private void SetDataLength(string data)
         {
-            DataLength = data.Length;
+            Length = data.Length;
         }
 
         /// <summary>
