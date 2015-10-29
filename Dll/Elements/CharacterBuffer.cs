@@ -1,16 +1,11 @@
-using System;
-using System.CodeDom;
+﻿using System;
+using System.Runtime.CompilerServices;
+using Elements.Constants;
 
 namespace Elements
 {
     public class CharacterBuffer
     {
-        #region Fields
-
-        public const char NullCharacter = '\0';
-
-        #endregion
-
         #region Properties
 
         /// <summary>
@@ -24,7 +19,7 @@ namespace Elements
             get
             {
                 return Index == Length
-                    ? NullCharacter
+                    ? SpecialCharacters.NullCharacter
                     : Data[Index];
             }
         }
@@ -56,7 +51,36 @@ namespace Elements
         /// </value>
         public int Length { get; private set; }
 
+        /// <summary>
+        /// Gets or sets the index.
+        /// </summary>
+        /// <value>
+        /// The index.
+        /// </value>
         private int Index { get; set; }
+
+        /// <summary>
+        /// Gets or sets the offset of the index.
+        /// </summary>
+        /// <value>
+        /// The index offset.
+        /// </value>
+        private int IndexOffset { get; set; }
+
+        /// <summary>
+        /// Gets the index in original buffer.
+        /// </summary>
+        /// <value>
+        /// The index in original buffer.
+        /// </value>
+        /// <returns>The Index plust the offset</returns>
+        public int IndexInOriginalBuffer
+        {
+            get
+            {
+                return Index + IndexOffset;
+            }
+        }
 
         /// <summary>
         /// Gets a value indicating whether this instance is at start.
@@ -91,7 +115,7 @@ namespace Elements
             get
             {
                 return IsAtEnd
-                    ? NullCharacter
+                    ? SpecialCharacters.NullCharacter
                     : Data[Index + 1];
             }
         }
@@ -107,7 +131,7 @@ namespace Elements
             get
             {
                 return IsAtStart
-                    ? NullCharacter
+                    ? SpecialCharacters.NullCharacter
                     : Data[Index - 1];
             }
         }
@@ -130,6 +154,17 @@ namespace Elements
             SetIndex(0);
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CharacterBuffer"/> class.
+        /// </summary>
+        /// <param name="data">The data.</param>
+        /// <param name="indexOffset">The index offset.</param>
+        public CharacterBuffer(string data, int indexOffset)
+            : this(data)
+        {
+            SetIndexOffset(indexOffset);
+        }
+
         #endregion
 
         #region Methods
@@ -143,6 +178,22 @@ namespace Elements
             return IsAtEnd
                 ? string.Empty
                 : new string(Data, Index, Length - Index);
+        }
+
+        /// <summary>
+        /// Moves the specified move by.
+        /// </summary>
+        /// <param name="amount">The move by.</param>
+        /// <returns></returns>
+        public bool MoveBy(int amount)
+        {
+            int newIndex = Index + amount;
+            bool validNewIndexPosition = (0 <= newIndex && newIndex < Length);
+
+            if (!validNewIndexPosition) return false;
+
+            SetIndex(newIndex);
+            return true;
         }
 
         /// <summary>
@@ -215,6 +266,17 @@ namespace Elements
         }
 
         /// <summary>
+        /// Sets the index offset.
+        /// </summary>
+        /// <param name="indexOffset">The index offset.</param>
+        public void SetIndexOffset(int indexOffset)
+        {
+            if (indexOffset < 0) throw new ArgumentOutOfRangeException("indexOffset");
+
+            IndexOffset = indexOffset;
+        }
+
+        /// <summary>
         /// Retrieves a substring from this instance. The substring starts at
         /// a specified character position and has a specified length.
         /// </summary>
@@ -234,7 +296,7 @@ namespace Elements
         /// </exception>
         public string Substring(int startIndex, int length)
         {
-            if(startIndex < 0) throw new ArgumentOutOfRangeException("startIndex", startIndex, "startIndex must be zero or greater");
+            if (startIndex < 0) throw new ArgumentOutOfRangeException("startIndex", startIndex, "startIndex must be zero or greater");
             if (startIndex + length > Length) throw new ArgumentOutOfRangeException("length", length, "The length when added to the startIndex must be less than the length of the buffer");
 
             return new string(Data, startIndex, length);

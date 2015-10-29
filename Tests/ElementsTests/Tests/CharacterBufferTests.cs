@@ -1,6 +1,7 @@
-using Elements;
+﻿using Elements;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using Elements.Constants;
 
 namespace ElementsTests.Tests
 {
@@ -48,7 +49,7 @@ namespace ElementsTests.Tests
         {
             // ARRANGE
             const string data = Fakes.Literal.BasicLiteral;
-            const char expectedCharacter = CharacterBuffer.NullCharacter;
+            const char expectedCharacter = SpecialCharacters.NullCharacter;
 
             // ACT
             var characterBuffer = new CharacterBuffer(data);
@@ -159,9 +160,47 @@ namespace ElementsTests.Tests
             // ACT
             characterBuffer.MoveToEnd();
             string actualData = characterBuffer.GetToEnd();
-            
+
             // ASSERT
             Assert.AreEqual(actualData, expectedCharachter);
+        }
+
+        #endregion
+
+        #region IndexInOriginalBuffer
+
+        [TestMethod]
+        public void IndexInOriginalBuffer_ResultsInIndex_WhenOffSetIsZero()
+        {
+            // ARRANGE
+            const string data = Fakes.Literal.BasicLiteral;
+            var characterBuffer = new CharacterBuffer(data);
+            const int indexOffset = 0;
+            int expectedIndexInOriginalBuffer = characterBuffer.CurrentIndexPosition;
+
+            // ACT
+            characterBuffer.SetIndexOffset(indexOffset);
+            var actualIndexInOriginalBuffer = characterBuffer.IndexInOriginalBuffer;
+
+            // ASSERT
+            Assert.AreEqual(expectedIndexInOriginalBuffer, actualIndexInOriginalBuffer);
+        }
+
+        [TestMethod]
+        public void IndexInOriginalBuffer_ResultsInSumOfIndexAndOffset_WhenOffSetIsZero()
+        {
+            // ARRANGE
+            const string data = Fakes.Literal.BasicLiteral;
+            const int indexOffset = 1;
+            var characterBuffer = new CharacterBuffer(data);
+            int expectedIndexInOriginalBuffer = characterBuffer.CurrentIndexPosition + indexOffset;
+
+            // ACT
+            characterBuffer.SetIndexOffset(indexOffset);
+            var actualIndexInOriginalBuffer = characterBuffer.IndexInOriginalBuffer;
+
+            // ASSERT
+            Assert.AreEqual(expectedIndexInOriginalBuffer, actualIndexInOriginalBuffer);
         }
 
         #endregion
@@ -173,9 +212,9 @@ namespace ElementsTests.Tests
         {
             // ARRANGE
             const string data = Fakes.Literal.BasicLiteral;
+            var characterBuffer = new CharacterBuffer(data);
 
             // ACT
-            var characterBuffer = new CharacterBuffer(data);
             var isAtBeginning = characterBuffer.IsAtStart;
 
             // ASSERT
@@ -226,7 +265,7 @@ namespace ElementsTests.Tests
             // ARRANGE
             const string data = Fakes.Literal.BasicLiteral;
             var characterBuffer = new CharacterBuffer(data);
-            const char expectedCharacter = CharacterBuffer.NullCharacter;
+            const char expectedCharacter = SpecialCharacters.NullCharacter;
 
             // ACT
             characterBuffer.MoveToEnd();
@@ -245,7 +284,7 @@ namespace ElementsTests.Tests
         {
             // ARRANGE
             const string data = Fakes.Literal.BasicLiteral;
-            const char expectedCharacter = CharacterBuffer.NullCharacter;
+            const char expectedCharacter = SpecialCharacters.NullCharacter;
 
             // ACT
             var characterBuffer = new CharacterBuffer(data);
@@ -270,6 +309,87 @@ namespace ElementsTests.Tests
             // ASSERT
             Assert.AreEqual(expectedCharacter, actualCharacter);
         }
+
+        #endregion
+
+        #region Move
+
+        [TestMethod]
+        public void Move_ReturnsTrue_WhenNewPositionIsValid()
+        {
+            // ARRANGE
+            const string data = Fakes.Literal.BasicLiteral;
+            const int moveBy = 1;
+            var characterBuffer = new CharacterBuffer(data);
+
+            // ACT
+            var result = characterBuffer.MoveBy(moveBy);
+
+            // ASSERT
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void Move_ReturnsTrue_WhenNewPositionIsFirstIndex()
+        {
+            // ARRANGE
+            const string data = Fakes.Literal.BasicLiteral;
+            const int moveBy = 1;
+            var characterBuffer = new CharacterBuffer(data);
+
+            // ACT
+            characterBuffer.MoveBy(moveBy);
+            var result = characterBuffer.MoveBy(-moveBy);
+
+            // ASSERT
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void Move_ReturnsTrue_WhenNewPositionIsLastIndex()
+        {
+            // ARRANGE
+            const string data = Fakes.Literal.BasicLiteral;
+            int moveBy = data.Length - 1;
+            var characterBuffer = new CharacterBuffer(data);
+
+            // ACT
+            var result = characterBuffer.MoveBy(moveBy);
+
+            // ASSERT
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void Move_ReturnsFalse_WhenNewPositionIsLessThanZero()
+        {
+            // ARRANGE
+            const string data = Fakes.Literal.BasicLiteral;
+            const int moveBy = -10;
+            var characterBuffer = new CharacterBuffer(data);
+
+            // ACT
+            var result = characterBuffer.MoveBy(moveBy);
+
+            // ASSERT
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void Move_ReturnsFalse_WhenNewPositionIsEqualOrGreaterThanLength()
+        {
+            // ARRANGE
+            const string data = Fakes.Literal.BasicLiteral;
+            int moveBy = data.Length;
+            var characterBuffer = new CharacterBuffer(data);
+
+            // ACT
+            var result = characterBuffer.MoveBy(moveBy);
+
+            // ASSERT
+            Assert.IsFalse(result);
+        }
+
 
         #endregion
 
@@ -339,7 +459,6 @@ namespace ElementsTests.Tests
 
         #endregion
 
-
         #region MoveToEnd
 
 
@@ -350,6 +469,43 @@ namespace ElementsTests.Tests
 
         #endregion
 
+        #region SetIndexOffset
+
+        [TestMethod]
+        public void SetIndexOffset_SetsIndexInOriginalBufferToBeCorrectValue_WhenOffsetIspositive()
+        {
+            // ARRANGE
+            const string data = Fakes.Literal.BasicLiteral;
+            var characterBuffer = new CharacterBuffer(data);
+            const int indexOffset = 2;
+            int expectedIndexInOriginalBuffer = characterBuffer.CurrentIndexPosition + indexOffset;
+
+            // ACT
+            characterBuffer.SetIndexOffset(indexOffset);
+            var actualIndexInOriginalBuffer = characterBuffer.IndexInOriginalBuffer;
+
+            // ASSERT
+            Assert.AreEqual(expectedIndexInOriginalBuffer, actualIndexInOriginalBuffer);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void SetIndexOffset_ThrowsArgumentOutOfRangeException_WhenOffsetIsNegative()
+        {
+            // ARRANGE
+            const string data = Fakes.Literal.BasicLiteral;
+            var characterBuffer = new CharacterBuffer(data);
+            const int indexOffset = -1;
+
+            // ACT
+            characterBuffer.SetIndexOffset(indexOffset);
+
+            // ASSERT
+            // Exception thrown by now
+        }
+
+        #endregion
+
         #region Substring
 
         [TestMethod]
@@ -357,8 +513,8 @@ namespace ElementsTests.Tests
         {
             // ARRANGE
             const string data = Fakes.Literal.BasicLiteral;
-            int expectedStartIndex = 1;
-            int expectedLength = 1;
+            const int expectedStartIndex = 1;
+            const int expectedLength = 1;
             string expected = data.Substring(expectedStartIndex, expectedLength);
             var characterBuffer = new CharacterBuffer(data);
 
@@ -423,6 +579,5 @@ namespace ElementsTests.Tests
         }
 
         #endregion
-
     }
 }
