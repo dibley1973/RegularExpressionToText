@@ -1,7 +1,7 @@
-﻿using Entities;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Entities;
 
-namespace ElementsTests.Tests
+namespace EntitiesTests.Tests
 {
     [TestClass]
     public class ExpressionTests

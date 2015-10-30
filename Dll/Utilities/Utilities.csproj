@@ -46,7 +46,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Elements\Entities.csproj">
+    <ProjectReference Include="..\Entities\Entities.csproj">
       <Project>{2c39937a-3681-4cc6-877e-2bf2612026b1}</Project>
       <Name>Entities</Name>
     </ProjectReference>

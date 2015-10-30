@@ -6,8 +6,8 @@
     <ProjectGuid>{BDBF49D5-017A-4902-B267-58FF9FDE2E5A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ElementsTests</RootNamespace>
-    <AssemblyName>ElementsTests</AssemblyName>
+    <RootNamespace>EntitiesTests</RootNamespace>
+    <AssemblyName>EntitiesTests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -56,7 +56,7 @@
     <Compile Include="Tests\ElementTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Dll\Elements\Entities.csproj">
+    <ProjectReference Include="..\..\Dll\Entities\Entities.csproj">
       <Project>{2c39937a-3681-4cc6-877e-2bf2612026b1}</Project>
       <Name>Entities</Name>
     </ProjectReference>

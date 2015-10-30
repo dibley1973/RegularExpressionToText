@@ -1,9 +1,9 @@
-﻿using Fakes;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 using Entities.Enumerations;
+using Fakes;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace ElementsTests.Tests
+namespace EntitiesTests.Tests
 {
     [TestClass]
     public class ElementTests

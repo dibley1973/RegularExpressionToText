@@ -1,9 +1,9 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 using Entities;
 using Entities.Constants;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace ElementsTests.Tests
+namespace EntitiesTests.Tests
 {
     [TestClass]
     public class CharacterBufferTests
