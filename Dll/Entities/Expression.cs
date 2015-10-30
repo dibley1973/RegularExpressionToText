@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Entities
 {
@@ -16,14 +17,6 @@ namespace Entities
         /// The elements.
         /// </value>
         public List<Element> Elements { get; private set; }
-
-        ///// <summary>
-        ///// Gets or sets a value indicating whether to ignore whitespace or not.
-        ///// </summary>
-        ///// <value>
-        /////   <c>true</c> if to ignore whitespace; otherwise, <c>false</c>.
-        ///// </value>
-        //public bool IgnoreWhitespace { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether this instance has ECMA sytax.
@@ -70,6 +63,7 @@ namespace Entities
         /// </summary>
         /// <param name="buffer">The buffer.</param>
         public Expression(CharacterBuffer buffer)
+            : this()
         {
             Literal = buffer.GetToEnd();
         }
@@ -84,28 +78,23 @@ namespace Entities
         public Expression(string literal, bool hasEcmaSyntax)
             : this(literal)
         {
-
             HasEcmaSyntax = hasEcmaSyntax;
         }
-
-        //public Expression(string literal, int offset, bool ignoreWhitespace, bool HasEcmaSyntax)
-        //    : this(literal, ignoreWhitespace, HasEcmaSyntax)
-        //{
-        //    Parse(offset);
-        //}
-
-        //public Expression(string literal, int offset, bool ignoreWhitespace, bool HasEcmaSyntax, bool skipFirstCaptureNumber)
-        //    : this(literal, ignoreWhitespace, HasEcmaSyntax)
-        //{
-        //    Parse(offset, skipFirstCaptureNumber);
-        //}
-
 
         #endregion
 
         #region Methods
 
-       
+        /// <summary>
+        /// Adds the specified element.
+        /// </summary>
+        /// <param name="element">The element.</param>
+        public virtual void AddElement(Element element)
+        {
+            if(element == null) throw new ArgumentNullException("element");
+
+            Elements.Add(element);
+        }
 
         #endregion
     }

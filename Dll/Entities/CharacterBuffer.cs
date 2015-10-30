@@ -64,7 +64,7 @@ namespace Entities
         /// <value>
         /// The index offset.
         /// </value>
-        private int IndexOffset { get; set; }
+        public int IndexOffset { get; private set; }
 
         /// <summary>
         /// Gets the index in original buffer.

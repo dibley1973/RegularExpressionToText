@@ -1,7 +1,7 @@
-﻿using System;
-using Entities;
+﻿using Entities;
 using Entities.Constants;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace EntitiesTests.Tests
 {
@@ -23,6 +23,22 @@ namespace EntitiesTests.Tests
 
             // ASSERT
             // Exception thrown by here!
+        }
+
+        [TestMethod]
+        public void Constructor_InstanceHasCorrectindexOffset_WhenClassConstructedWithIndexOffset()
+        {
+            // ARRANGE
+            const string data = Fakes.Literal.BasicLiteral;
+            const int expectedIndexOffset = 3;
+
+            // ACT
+            // ReSharper disable once ObjectCreationAsStatement
+            var characterBuffer = new CharacterBuffer(data, expectedIndexOffset);
+            var indexOffset = characterBuffer.IndexOffset;
+
+            // ASSERT
+            Assert.AreEqual(expectedIndexOffset, indexOffset);
         }
 
         #endregion
@@ -472,7 +488,7 @@ namespace EntitiesTests.Tests
         #region SetIndexOffset
 
         [TestMethod]
-        public void SetIndexOffset_SetsIndexInOriginalBufferToBeCorrectValue_WhenOffsetIspositive()
+        public void SetIndexOffset_SetsIndexInOriginalBufferToBeCorrectValue_WhenOffsetIsPositive()
         {
             // ARRANGE
             const string data = Fakes.Literal.BasicLiteral;

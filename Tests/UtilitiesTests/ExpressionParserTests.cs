@@ -19,7 +19,7 @@ namespace UtilitiesTests
             var expression = new Expression(expectedLiteral);
 
             // ACT
-            var expressionParser = new ExpressionParser(expression, expectedWhitespaceBehaviour, false);
+            var expressionParser = new ExpressionParser(expression, expectedWhitespaceBehaviour);
             var actualWhitespaceBehaviour = expressionParser.WhitespaceBehaviour;
 
             // ASSERT

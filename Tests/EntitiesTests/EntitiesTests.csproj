@@ -54,6 +54,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\CharacterBufferTests.cs" />
     <Compile Include="Tests\ElementTests.cs" />
+    <Compile Include="Tests\CharacterTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Dll\Entities\Entities.csproj">
