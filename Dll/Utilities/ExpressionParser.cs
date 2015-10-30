@@ -1,6 +1,6 @@
-﻿using System;
-using Entities;
+﻿using Entities;
 using Entities.Constants;
+using System;
 using Utilities.Enumerations;
 using Utilities.Resources;
 
@@ -367,6 +367,9 @@ namespace Utilities
         /// <returns></returns>
         public string GetCharacterDescription(Character character, string formatString)
         {
+            if (!formatString.Contains("{0}"))
+                throw new ArgumentOutOfRangeException("formatString", ExceptionMessages.FormatStringZeroIndexPlaceholderMissing);
+
             return string.Format(formatString, character.Literal);
         }
 
