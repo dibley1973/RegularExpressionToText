@@ -1,16 +1,31 @@
-﻿using Elements;
-using System;
+﻿using System;
+using Entities;
 
 namespace Utilities
 {
     /// <summary>
-    /// Responsible for converting specified regular expressions to plain text
+    /// Responsible for converting the elemenets of the specified regular expressions to plain text
     /// </summary>
     public class ExpressionToText
     {
+        #region Fields
+
+        private readonly Expression _expression;
+
+        #endregion
+
         #region Properties
 
-        public Expression Expression { get; private set; }
+        /// <summary>
+        /// Gets the expression.
+        /// </summary>
+        /// <value>
+        /// The expression.
+        /// </value>
+        public Expression Expression
+        {
+            get { return _expression; }
+        }
 
         #endregion
 
@@ -22,7 +37,7 @@ namespace Utilities
         /// <param name="expression">The expression.</param>
         public ExpressionToText(Expression expression)
         {
-            Expression = expression;
+            _expression = expression;
         }
 
         #endregion

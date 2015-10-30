@@ -1,4 +1,4 @@
-﻿namespace Elements.Enumerations
+﻿namespace Entities.Enumerations
 {
     public enum RepeatType
     {

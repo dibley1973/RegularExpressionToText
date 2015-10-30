@@ -39,13 +39,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enumerations\FirstCaptureNumberBehaviour.cs" />
+    <Compile Include="Enumerations\IgnoreWhitespaceBehaviour.cs" />
+    <Compile Include="ExpressionParser.cs" />
     <Compile Include="ExpressionToText.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Elements\Elements.csproj">
+    <ProjectReference Include="..\Elements\Entities.csproj">
       <Project>{2c39937a-3681-4cc6-877e-2bf2612026b1}</Project>
-      <Name>Elements</Name>
+      <Name>Entities</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
-using Elements.Constants;
+using Entities.Constants;
 
-namespace Elements
+namespace Entities
 {
     public class CharacterBuffer
     {

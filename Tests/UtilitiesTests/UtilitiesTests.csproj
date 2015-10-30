@@ -52,11 +52,12 @@
   <ItemGroup>
     <Compile Include="ExpressionToTextTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ExpressionParserTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Dll\Elements\Elements.csproj">
+    <ProjectReference Include="..\..\Dll\Elements\Entities.csproj">
       <Project>{2c39937a-3681-4cc6-877e-2bf2612026b1}</Project>
-      <Name>Elements</Name>
+      <Name>Entities</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Dll\Utilities\Utilities.csproj">
       <Project>{56251180-f800-4d8c-ad4e-04e78ca0539a}</Project>

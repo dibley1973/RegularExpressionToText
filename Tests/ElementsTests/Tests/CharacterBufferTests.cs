@@ -1,7 +1,7 @@
-﻿using Elements;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using Elements.Constants;
+using Entities;
+using Entities.Constants;
 
 namespace ElementsTests.Tests
 {

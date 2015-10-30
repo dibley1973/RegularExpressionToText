@@ -1,7 +1,7 @@
-﻿using Elements.Enumerations;
-using System;
+﻿using System;
+using Entities.Enumerations;
 
-namespace Elements
+namespace Entities
 {
     public abstract class Element
     {

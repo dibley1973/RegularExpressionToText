@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dll", "Dll", "{5D1F8CF4-18E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{DB54D81A-B2BC-4DE8-B188-4BE7258AEBD7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Elements", "Dll\Elements\Elements.csproj", "{2C39937A-3681-4CC6-877E-2BF2612026B1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "Dll\Elements\Entities.csproj", "{2C39937A-3681-4CC6-877E-2BF2612026B1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElementsTests", "Tests\ElementsTests\ElementsTests.csproj", "{BDBF49D5-017A-4902-B267-58FF9FDE2E5A}"
 EndProject

@@ -1,5 +1,5 @@
 ﻿
-namespace Elements.Constants
+namespace Entities.Constants
 {
     public static class SpecialCharacters
     {

@@ -1,4 +1,4 @@
-﻿using Elements;
+﻿using Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace ElementsTests.Tests
@@ -6,27 +6,7 @@ namespace ElementsTests.Tests
     [TestClass]
     public class ExpressionTests
     {
-        #region IgnoreWhitespace
-
-        [TestMethod]
-        public void IgnoreWhitespace_ReturnsCorrectValue_WhenClassConstructedWithIgnoreWhiteSpace()
-        {
-
-            // ARRANGE
-            const string expectedLiteral = Fakes.Literal.BasicLiteral;
-            const bool expectedIgnoreWhitespace = true;
-
-            // ACT
-            var expression = new Expression(expectedLiteral, expectedIgnoreWhitespace, false);
-            var actualIgnoreWhitespace = expression.IgnoreWhitespace;
-
-            // ASSERT
-            Assert.AreEqual(expectedIgnoreWhitespace, actualIgnoreWhitespace);
-        }
-
-        #endregion
-
-        #region IsEcma
+        #region HasEcmaSyntax
 
         [TestMethod]
         public void IsEcma_ReturnsCorrectValue_WhenClassConstructedWithIsEcma()
@@ -36,8 +16,8 @@ namespace ElementsTests.Tests
             const bool expectedIsEcma = true;
 
             // ACT
-            var expression = new Expression(expectedLiteral, expectedIsEcma, false);
-            var actualIsEcma = expression.IgnoreWhitespace;
+            var expression = new Expression(expectedLiteral, expectedIsEcma);
+            var actualIsEcma = expression.HasEcmaSyntax;
 
             // ASSERT
             Assert.AreEqual(expectedIsEcma, actualIsEcma);

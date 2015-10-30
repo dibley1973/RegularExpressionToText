@@ -1,7 +1,7 @@
 ﻿using Fakes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using Elements.Enumerations;
+using Entities.Enumerations;
 
 namespace ElementsTests.Tests
 {

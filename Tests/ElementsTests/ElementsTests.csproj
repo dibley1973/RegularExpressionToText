@@ -56,9 +56,9 @@
     <Compile Include="Tests\ElementTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Dll\Elements\Elements.csproj">
+    <ProjectReference Include="..\..\Dll\Elements\Entities.csproj">
       <Project>{2c39937a-3681-4cc6-877e-2bf2612026b1}</Project>
-      <Name>Elements</Name>
+      <Name>Entities</Name>
     </ProjectReference>
     <ProjectReference Include="..\Fakes\Fakes.csproj">
       <Project>{3fc25e7b-e017-435c-bb89-69e1f1f25bfc}</Project>
