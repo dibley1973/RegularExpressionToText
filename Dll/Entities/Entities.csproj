@@ -41,10 +41,12 @@
   <ItemGroup>
     <Compile Include="Character.cs" />
     <Compile Include="CharacterBuffer.cs" />
+    <Compile Include="Conditional.cs" />
     <Compile Include="Constants\SpecialCharacters.cs" />
     <Compile Include="Element.cs" />
     <Compile Include="Enumerations\RepeatType.cs" />
     <Compile Include="Expression.cs" />
+    <Compile Include="Group.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
