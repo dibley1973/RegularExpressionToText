@@ -201,24 +201,24 @@ namespace Utilities
                                 switch (currentCharacter)
                                 {
                                     case SpecialCharacters.CurlyBraceOpen: // '{':
-                                        {
-                                            Character character = new Character(characterBuffer, true);
-                                            character.SetDescription(string.Concat(character.Literal,
-                                                " Misplaced quantifier"));
-                                            character.SetIsValid(false);
-                                            
-                                            if (character.RepeatType != RepeatType.Once)
-                                            {
-                                                Expression.AddElement(character);
-                                                continue;
-                                            }
+                                    {
+                                        Character character = new Character(characterBuffer, true);
+                                        character.SetDescription(string.Concat(character.Literal,
+                                            " Misplaced quantifier"));
+                                        character.SetIsValid(false);
 
-                                            Expression.AddElement(new Character(characterBuffer));
+                                        if (character.RepeatType != RepeatType.Once)
+                                        {
+                                            Expression.AddElement(character);
                                             continue;
                                         }
+
+                                        Expression.AddElement(new Character(characterBuffer));
+                                        continue;
+                                    }
                                     case SpecialCharacters.Pipe: // '|':
-                                        {
-                                            //SubExpression subExpression = new SubExpression(this.Clone())
+                                    {
+                                        //SubExpression subExpression = new SubExpression(this.Clone());
                                             //{
                                             //    Literal = charBuffer.Substring(0, charBuffer.CurrentIndex),
                                             //    Start = charBuffer.Offset,
@@ -248,87 +248,88 @@ namespace Utilities
                         case SpecialCharacters.Tab: // '\t':
                         case SpecialCharacters.NewLine: // '\n':
                         case SpecialCharacters.CarriageReturn: // '\r':
-                            {
-                                // Add special character
-                                //goto Label1;
-                                continue;
-                            }
+                        {
+                            // Add special character
+                            // goto Label1;
+                            continue;
+                        }
                         case SpecialCharacters.VerticalTab: // '\v':
                         case SpecialCharacters.FormFeed: // '\f':
-                            {
-                                break;
-                            }
+                        {
+                            break;
+                        }
                         default:
                             {
-                            //    switch (currentCharacter)
-                            //    {
-                            //        case SpecialCharacters.Space: // ' ':
-                            //        case SpecialCharacters.Dollar: // '$':
-                            //        case SpecialCharacters.Period: // '.':
-                            //            {
-                            //                // Add special character
-                            //                goto Label1;
-                            //            }
-                            //        case SpecialCharacters.Hash: // '#':
-                            //            {
-                            //                if (!this.IgnoreWhitespace)
-                            //                {
-                            //                    this.AddElement(new Character(charBuffer));
-                            //                    continue;
-                            //                }
+                                switch (currentCharacter)
+                                {
+                                    case SpecialCharacters.Space: // ' ':
+                                    case SpecialCharacters.Dollar: // '$':
+                                    case SpecialCharacters.Period: // '.':
+                                        {
+                                            // Add special character
+                                            //goto Label1;
+                                            continue;
+                                        }
+                                    case SpecialCharacters.Hash: // '#':
+                                        {
+                                            //if (!this.IgnoreWhitespace)
+                                            //{
+                                            //    this.AddElement(new Character(charBuffer));
+                                            //    continue;
+                                            //}
 
-                            //                this.AddElement(new Comment(charBuffer));
-                            //                continue;
-                            //            }
-                            //        case '(':
-                            //            {
-                            //                Conditional conditional = new Conditional();
-                            //                if (!conditional.ParseExpression(characterBuffer))
-                            //                {
-                            //                    Group group = new Group(characterBuffer, SkipFirstCaptureNumber);
-                            //                    if (group.Type == GroupType.OptionsOutside)
-                            //                    {
-                            //                        if (group.SetX == CheckState.Checked)
-                            //                        {
-                            //                            this.IgnoreWhitespace = true;
-                            //                        }
-                            //                        else if (group.SetX == CheckState.Unchecked)
-                            //                        {
-                            //                            this.IgnoreWhitespace = false;
-                            //                        }
-                            //                        charBuffer.IgnoreWhiteSpace = this.IgnoreWhitespace;
-                            //                    }
-                            //                    this.AddElement(group);
-                            //                    continue;
-                            //                }
-                            //                else
-                            //                {
-                            //                    this.AddElement(conditional);
-                            //                    Backreference.NeedsSecondPass = true;
-                            //                    continue;
-                            //                }
-                            //            }
-                            //        case ')':
-                            //        {
-                            //            Character character = new Character(characterBuffer);
-                            //                {
-                            //                    IsValid = false,
-                            //                    Description = "Unbalanced parenthesis"
-                            //                };
-                            //                this.AddElement(character);
-                            //                continue;
-                            //            }
-                            //        case '*':
-                            //        case '+':
-                            //            {
-                            //                goto Label0;
-                            //            }
-                            //    }
-                            //    break;
-                            //}
+                                            //this.AddElement(new Comment(charBuffer));
+                                            continue;
+                                        }
+                                    case '(':
+                                        {
+                                            //Conditional conditional = new Conditional();
+                                            //if (!conditional.ParseExpression(characterBuffer))
+                                            //{
+                                            //    Group group = new Group(characterBuffer, SkipFirstCaptureNumber);
+                                            //    if (group.Type == GroupType.OptionsOutside)
+                                            //    {
+                                            //        if (group.SetX == CheckState.Checked)
+                                            //        {
+                                            //            this.IgnoreWhitespace = true;
+                                            //        }
+                                            //        else if (group.SetX == CheckState.Unchecked)
+                                            //        {
+                                            //            this.IgnoreWhitespace = false;
+                                            //        }
+                                            //        charBuffer.IgnoreWhiteSpace = this.IgnoreWhitespace;
+                                            //    }
+                                            //    this.AddElement(group);
+                                            //    continue;
+                                            //}
+
+                                            //this.AddElement(conditional);
+                                            //Backreference.NeedsSecondPass = true;
+                                            continue;
+                                        }
+                                    case ')':
+                                    {
+                                        Character character = new Character(characterBuffer);
+                                            //{
+                                            //    IsValid = false,
+                                            //    Description = "Unbalanced parenthesis"
+                                            //};
+                                            //this.AddElement(character);
+                                            continue;
+                                        }
+                                    case '*':
+                                    case '+':
+                                        {
+                                            //goto Label0;
+                                            // mis placed qualifier
+                                            break;
+                                        }
+                                }
+                                break;
+                        }
                     }
                     Expression.AddElement(new Character(characterBuffer));
-                            break;
+                    //        break;
                 }
 
                 // TODO: Remove once all implementation is complete.
