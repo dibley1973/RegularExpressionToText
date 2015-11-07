@@ -47,6 +47,19 @@ namespace Entities
             Description = description;
         }
 
+
+        /// <summary>
+        /// Sets the end index.
+        /// </summary>
+        /// <param name="index">The index.</param>
+        /// <exception cref="System.ArgumentOutOfRangeException">index</exception>
+        public void SetEndIndex(int index)
+        {
+            if (index < 0) throw new ArgumentOutOfRangeException("index");
+
+            EndIndex = index;
+        }
+
         /// <summary>
         /// Sets the is valid.
         /// </summary>

@@ -1,6 +1,6 @@
-﻿using System;
-using Entities;
+﻿using Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace EntitiesTests.Tests
 {
@@ -38,9 +38,69 @@ namespace EntitiesTests.Tests
 
             // ACT
             expression.AddElement(null);
-            
+
             // ASSERT
             // exception thrown by here
+        }
+
+        #endregion
+
+        #region Clone
+
+        [TestMethod]
+        public void Clone_ResultIsNotNull_WhenCloneCalled()
+        {
+            // ARRANGE
+            const string expectedLiteral = Fakes.Literal.BasicLiteral;
+            var expression = new Expression(expectedLiteral);
+
+            // ACT
+            var clone = expression.Clone();
+
+            // ASSERT
+            Assert.IsNotNull(clone);
+        }
+
+        [TestMethod]
+        public void Clone_ResultsInElementsCorrectlyCloned_WhenCloneCalled()
+        {
+            // ARRANGE
+            const string expectedLiteral = Fakes.Literal.BasicLiteral;
+            var expression = new Expression(expectedLiteral);
+
+            // ACT
+            var clone = expression.Clone();
+
+            // ASSERT
+            CollectionAssert.AreEqual(expression.Elements, clone.Elements);
+        }
+
+        [TestMethod]
+        public void Clone_ResultsInHasEcmaSyntaxCorrectlyCloned_WhenCloneCalled()
+        {
+            // ARRANGE
+            const string expectedLiteral = Fakes.Literal.BasicLiteral;
+            var expression = new Expression(expectedLiteral);
+
+            // ACT
+            var clone = expression.Clone();
+
+            // ASSERT
+            Assert.AreEqual(expression.HasEcmaSyntax, clone.HasEcmaSyntax);
+        }
+
+        [TestMethod]
+        public void Clone_ResultsInLiteralCorrectlyCloned_WhenCloneCalled()
+        {
+            // ARRANGE
+            const string expectedLiteral = Fakes.Literal.BasicLiteral;
+            var expression = new Expression(expectedLiteral);
+
+            // ACT
+            var clone = expression.Clone();
+
+            // ASSERT
+            Assert.AreEqual(expression.Literal, clone.Literal);
         }
 
         #endregion
