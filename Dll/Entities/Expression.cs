@@ -38,13 +38,21 @@ namespace Entities
 
         #region Constructors
 
-        /// <summary>
-        /// Prevents a default instance of the <see cref="Expression"/> class from being created.
-        /// </summary>
-        private Expression()
+        ///// <summary>
+        ///// Prevents a default instance of the <see cref="Expression"/> class from being created.
+        ///// </summary>
+        //private Expression()
+        //{
+        //    //Alternatives = new Alternatives();
+        //    Elements = new List<Element>();
+        //    HasEcmaSyntax = false;
+        //}
+
+        public Expression()
         {
             //Alternatives = new Alternatives();
             Elements = new List<Element>();
+            Literal = "";
             HasEcmaSyntax = false;
         }
 
@@ -94,6 +102,24 @@ namespace Entities
             if(element == null) throw new ArgumentNullException("element");
 
             Elements.Add(element);
+        }
+
+        /// <summary>
+        /// Clones this instance.
+        /// </summary>
+        /// <returns></returns>
+        public Expression Clone()
+        {
+            Expression expression = new Expression();
+            //foreach (Element element in Elements)
+            //{
+            //    expression.Elements.Add(element);
+            //}
+            expression.Elements.AddRange(Elements);
+            expression.Literal = Literal;
+            //expression.IgnoreWhitespace = this.IgnoreWhitespace;
+            expression.HasEcmaSyntax = HasEcmaSyntax;
+            return expression;
         }
 
         #endregion

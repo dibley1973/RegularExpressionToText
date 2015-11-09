@@ -94,6 +94,9 @@ namespace Utilities
 
         #region Methods
 
+        
+
+
         ///// <summary>
         ///// Parses the expression into elements from the optional specified indexOffset.
         ///// </summary>
@@ -202,40 +205,36 @@ namespace Utilities
                                 {
                                     case SpecialCharacters.CurlyBraceOpen: // '{':
                                         {
-                                            Character character = new Character(characterBuffer, true);
-                                            character.SetDescription(string.Concat(character.Literal,
-                                                " Misplaced quantifier"));
-                                            character.SetIsValid(false);
+                                        var character = CreateMisplacedQuantifierCharacter(characterBuffer);
 
                                             if (character.RepeatType != RepeatType.Once)
                                             {
                                                 Expression.AddElement(character);
                                                 continue;
                                             }
-
+                                        
                                             Expression.AddElement(new Character(characterBuffer));
                                             continue;
                                         }
                                     case SpecialCharacters.Pipe: // '|':
                                         {
-                                            //SubExpression subExpression = new SubExpression(this.Clone());
-                                            //{
-                                            //    Literal = charBuffer.Substring(0, charBuffer.CurrentIndex),
-                                            //    Start = charBuffer.Offset,
-                                            //    End = charBuffer.IndexInOriginalBuffer
-                                            //};
-                                            //this.alternatives.AddElement(subExpression);
-                                            //characterBuffer.MoveNext();
-                                            //int num = characterBuffer.IndexInOriginalBuffer;
-                                            //characterBuffer = new CharacterBuffer(characterBuffer.GetToEnd());
-                                            //{
-                                            //    characterBuffer.SetIndexOffset(num);
-                                            //    characterBuffer.IgnoreWhiteSpace = this.IgnoreWhitespace;
-                                            //    characterBuffer.IsECMA = IsUsingEcmaSyntax;
-                                            //};
-                                            //this.Clear();
-                                            continue;
-                                        }
+                                        SubExpression subExpression = new SubExpression(Expression.Clone());
+                                        subExpression.SetLiteral(characterBuffer.Substring(0, characterBuffer.CurrentIndexPosition));
+                                        subExpression.SetStartIndex(characterBuffer.IndexOffset);
+                                        subExpression.SetEndIndex(characterBuffer.IndexInOriginalBuffer);
+
+                                        //this.alternatives.AddElement(subExpression);
+                                        //characterBuffer.MoveNext();
+                                        //int num = characterBuffer.IndexInOriginalBuffer;
+                                        //characterBuffer = new CharacterBuffer(characterBuffer.GetToEnd());
+                                        //{
+                                        //    characterBuffer.SetIndexOffset(num);
+                                        //    characterBuffer.IgnoreWhiteSpace = this.IgnoreWhitespace;
+                                        //    characterBuffer.IsECMA = IsUsingEcmaSyntax;
+                                        //};
+                                        //this.Clear();
+                                        continue;
+                                    }
                                 }
                                 break;
                             }
@@ -347,10 +346,7 @@ namespace Utilities
         /// <param name="expression">The expression.</param>
         private void AddMisplacedQuantifierCharacter(CharacterBuffer characterBuffer, Expression expression)
         {
-            Character character = new Character(characterBuffer, true);
-            var description = GetCharacterDescription(character, CharacterDescriptions.MisplacedQuantifier);
-            character.SetDescription(description);
-            character.SetIsValid(false);
+            var character = CreateMisplacedQuantifierCharacter(characterBuffer);
             expression.AddElement(character);
         }
 
@@ -359,6 +355,15 @@ namespace Utilities
             throw new NotImplementedException("AddSpecialCharacter");
             //var element = new SpecialCharacter(characterBuffer);
             //expression.AddElement(element);
+        }
+
+        private Character CreateMisplacedQuantifierCharacter(CharacterBuffer characterBuffer)
+        {
+            Character character = new Character(characterBuffer, true);
+            var description = GetCharacterDescription(character, CharacterDescriptions.MisplacedQuantifier);
+            character.SetDescription(description);
+            character.SetIsValid(false);
+            return character;
         }
 
         /// <summary>
