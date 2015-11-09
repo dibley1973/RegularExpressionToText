@@ -1,7 +1,7 @@
 ﻿using Entities;
 using Entities.Constants;
-using System;
 using Entities.Enumerations;
+using System;
 using Utilities.Enumerations;
 using Utilities.Resources;
 
@@ -201,24 +201,24 @@ namespace Utilities
                                 switch (currentCharacter)
                                 {
                                     case SpecialCharacters.CurlyBraceOpen: // '{':
-                                    {
-                                        Character character = new Character(characterBuffer, true);
-                                        character.SetDescription(string.Concat(character.Literal,
-                                            " Misplaced quantifier"));
-                                        character.SetIsValid(false);
-
-                                        if (character.RepeatType != RepeatType.Once)
                                         {
-                                            Expression.AddElement(character);
+                                            Character character = new Character(characterBuffer, true);
+                                            character.SetDescription(string.Concat(character.Literal,
+                                                " Misplaced quantifier"));
+                                            character.SetIsValid(false);
+
+                                            if (character.RepeatType != RepeatType.Once)
+                                            {
+                                                Expression.AddElement(character);
+                                                continue;
+                                            }
+
+                                            Expression.AddElement(new Character(characterBuffer));
                                             continue;
                                         }
-
-                                        Expression.AddElement(new Character(characterBuffer));
-                                        continue;
-                                    }
                                     case SpecialCharacters.Pipe: // '|':
-                                    {
-                                        //SubExpression subExpression = new SubExpression(this.Clone());
+                                        {
+                                            //SubExpression subExpression = new SubExpression(this.Clone());
                                             //{
                                             //    Literal = charBuffer.Substring(0, charBuffer.CurrentIndex),
                                             //    Start = charBuffer.Offset,
@@ -248,16 +248,16 @@ namespace Utilities
                         case SpecialCharacters.Tab: // '\t':
                         case SpecialCharacters.NewLine: // '\n':
                         case SpecialCharacters.CarriageReturn: // '\r':
-                        {
-                            // Add special character
-                            // goto Label1;
-                            continue;
-                        }
+                            {
+                                // Add special character
+                                // goto Label1;
+                                continue;
+                            }
                         case SpecialCharacters.VerticalTab: // '\v':
                         case SpecialCharacters.FormFeed: // '\f':
-                        {
-                            break;
-                        }
+                            {
+                                break;
+                            }
                         default:
                             {
                                 switch (currentCharacter)
@@ -308,8 +308,8 @@ namespace Utilities
                                             continue;
                                         }
                                     case ')':
-                                    {
-                                        Character character = new Character(characterBuffer);
+                                        {
+                                            Character character = new Character(characterBuffer);
                                             //{
                                             //    IsValid = false,
                                             //    Description = "Unbalanced parenthesis"
@@ -326,7 +326,7 @@ namespace Utilities
                                         }
                                 }
                                 break;
-                        }
+                            }
                     }
                     Expression.AddElement(new Character(characterBuffer));
                     //        break;
