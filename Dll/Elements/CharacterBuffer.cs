@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Elements.Constants;
+using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
@@ -10,7 +11,8 @@ namespace Elements
 
         public const char NullCharacter = '\0';
 
-        private string Data;
+        private string _data;
+        //private char[] _data;
 
         #endregion
 
@@ -28,7 +30,7 @@ namespace Elements
             {
                 return Index == Length
                     ? NullCharacter
-                    : Data[Index];
+                    : _data[Index];
             }
         }
 
@@ -49,7 +51,11 @@ namespace Elements
         /// <value>
         /// The data.
         /// </value>
-        //private char[] Data { get; set; }
+        //private char[] Data
+        //{
+        //    get { return _data; }
+        //    //set { _data = value; }
+        //}
 
         /// <summary>
         /// Gets the length.
@@ -86,14 +92,8 @@ namespace Elements
         {
             get
             {
-                if (this.Index == this.Length)
-                {
-                    return true;
-                }
-                return false;
+                return Index == Length;
             }
-
-            //get { return Index == Length; }
         }
 
         public int IndexInOriginalBuffer
@@ -116,7 +116,7 @@ namespace Elements
             {
                 return IsAtEnd
                     ? NullCharacter
-                    : Data[Index + 1];
+                    : _data[Index + 1];
             }
         }
 
@@ -134,7 +134,7 @@ namespace Elements
             {
                 return IsAtStart
                     ? NullCharacter
-                    : Data[Index - 1];
+                    : _data[Index - 1];
             }
         }
 
@@ -153,8 +153,7 @@ namespace Elements
 
             SetData(data);
             SetDataLength(data);
-            this.Index = 0;
-            //SetIndex(0);
+            SetIndex(0);
         }
 
         #endregion
@@ -164,49 +163,49 @@ namespace Elements
         public List<int> FindNakedPipes()
         {
             int num = 0;
-            bool flag = false;
+            bool isEscaped = false;
             List<int> nums = new List<int>();
             while (!IsAtEnd)
             {
-                if (!flag && CurrentCharacter == '(')
+                if (!isEscaped && CurrentCharacter == Characters.BracketOpen)
                 {
                     num++;
                 }
-                else if (!flag && CurrentCharacter == ')')
+                else if (!isEscaped && CurrentCharacter == Characters.BracketClosed)
                 {
                     num--;
                 }
-                if (num == 0 && !flag && CurrentCharacter == '|')
+                if (num == 0 && !isEscaped && CurrentCharacter == Characters.Pipe)
                 {
-                    nums.Add(this.CurrentIndex);
+                    nums.Add(CurrentIndex);
                 }
-                flag = (CurrentCharacter != '\\' ? false : !flag);
-                this.MoveNext();
+                isEscaped = (CurrentCharacter == Characters.BackSlash && !isEscaped);
+                MoveNext();
             }
             return nums;
         }
 
-        public CharacterBuffer.ParsedCharacterClass GetParsedCharacterClass()
+        internal ParsedCharacterClass GetParsedCharacterClass()
         {
-            CharacterBuffer.ParsedCharacterClass parsedCharacterClass = new CharacterBuffer.ParsedCharacterClass();
+            ParsedCharacterClass parsedCharacterClass = new ParsedCharacterClass();
             if (CurrentCharacter != '[')
             {
                 parsedCharacterClass.ErrorMessage = "Parsing Error - Character Class did not start with [";
                 return parsedCharacterClass;
             }
-            parsedCharacterClass.LeftBracketIndex[0] = this.CurrentIndex;
+            parsedCharacterClass.LeftBracketIndex[0] = CurrentIndex;
             parsedCharacterClass.Count = 1;
-            int currentIndex = this.CurrentIndex;
+            int currentIndex = CurrentIndex;
             bool flag = false;
             bool flag1 = false;
-            while (!this.IsAtEnd)
+            while (!IsAtEnd)
             {
-                this.MoveNext();
+                MoveNext();
                 if (flag1 && CurrentCharacter == '[')
                 {
-                    currentIndex = this.CurrentIndex;
+                    currentIndex = CurrentIndex;
                     parsedCharacterClass.LeftBracketIndex[parsedCharacterClass.Count] = currentIndex;
-                    CharacterBuffer.ParsedCharacterClass count = parsedCharacterClass;
+                    ParsedCharacterClass count = parsedCharacterClass;
                     count.Count = count.Count + 1;
                     if (parsedCharacterClass.Count > 30)
                     {
@@ -222,11 +221,11 @@ namespace Elements
                 }
                 else
                 {
-                    if (this.CurrentIndex == currentIndex + 1)
+                    if (CurrentIndex == currentIndex + 1)
                     {
                         continue;
                     }
-                    if (this.CurrentIndex != currentIndex + 2 || this.Previous != '\u005E')
+                    if (CurrentIndex != currentIndex + 2 || Previous != '\u005E')
                     {
                         break;
                     }
@@ -240,8 +239,8 @@ namespace Elements
             }
             for (int i = 0; i < parsedCharacterClass.Count - 1; i++)
             {
-                this.MoveNext();
-                if (this.IsAtEnd)
+                MoveNext();
+                if (IsAtEnd)
                 {
                     parsedCharacterClass.ErrorMessage = "Unmatched bracket in character class";
                     parsedCharacterClass.Count = 0;
@@ -254,49 +253,49 @@ namespace Elements
                     return parsedCharacterClass;
                 }
             }
-            this.MoveNext();
+            MoveNext();
             return parsedCharacterClass;
         }
 
         public string GetStringToMatchingParenthesis()
         {
             int currentIndex;
-            if (this.CurrentCharacter != '(')
+            if (CurrentCharacter != '(')
             {
                 return "";
             }
-            int num = this.CurrentIndex;
+            int num = CurrentIndex;
             int num1 = 1;
             bool flag = false;
             while (!IsAtEnd && num1 != 0)
             {
-                this.MoveNext();
-                if (!flag && this.CurrentCharacter == '[')
+                MoveNext();
+                if (!flag && CurrentCharacter == '[')
                 {
-                    int currentIndex1 = this.CurrentIndex;
-                    if (this.GetParsedCharacterClass().Count == 0)
+                    int currentIndex1 = CurrentIndex;
+                    if (GetParsedCharacterClass().Count == 0)
                     {
-                        this.MoveTo(currentIndex1 + 1);
+                        MoveTo(currentIndex1 + 1);
                     }
                 }
-                if (!flag && this.CurrentCharacter == '(')
+                if (!flag && CurrentCharacter == '(')
                 {
                     num1++;
                 }
-                else if (!flag && this.CurrentCharacter == ')')
+                else if (!flag && CurrentCharacter == ')')
                 {
                     num1--;
                 }
-                flag = (this.CurrentCharacter != '\\' ? false : !flag);
+                flag = (CurrentCharacter != '\\' ? false : !flag);
             }
             if (!IsAtEnd)
             {
-                currentIndex = this.CurrentIndex;
-                return this.Substring(num, currentIndex - num + 1);
+                currentIndex = CurrentIndex;
+                return Substring(num, currentIndex - num + 1);
             }
-            this.MovePrevious();
-            currentIndex = this.CurrentIndex;
-            return this.Substring(num, currentIndex - num + 1);
+            MovePrevious();
+            currentIndex = CurrentIndex;
+            return Substring(num, currentIndex - num + 1);
         }
 
         /// <summary>
@@ -307,15 +306,17 @@ namespace Elements
         {
             return IsAtEnd
                 ? string.Empty
-                : Data.Substring(Index); 
-                //new string(Data, Index, Length - Index);
+                : _data.Substring(Index);
+            //return IsAtEnd
+            //    ? string.Empty
+            //    : new string(Data, Index, Length - Index);
         }
 
         public string GetWhiteSpace()
         {
-            Match match = !IsEcma 
-                ? WhiteSpace.FindWhiteSpace.Match(Data, Index) 
-                : WhiteSpace.FindECMAWhiteSpace.Match(Data, Index);
+            Match match = !IsEcma
+                ? WhiteSpace.FindWhiteSpace.Match(_data.ToString(), Index)
+                : WhiteSpace.FindECMAWhiteSpace.Match(_data.ToString(), Index);
 
             if (!match.Success)
             {
@@ -337,7 +338,7 @@ namespace Elements
             //SetIndex(Index + 1);
             //return true;
 
-            if (this.Index == this.Length)
+            if (Index == Length)
             {
                 return false;
             }
@@ -345,7 +346,7 @@ namespace Elements
             int index = charBuffer.Index;
             int num = index;
             charBuffer.Index = index + 1;
-            if (num == this.Length)
+            if (num == Length)
             {
                 return false;
             }
@@ -358,12 +359,12 @@ namespace Elements
         /// <returns></returns>
         public bool MovePrevious()
         {
-        //    if (IsAtStart) return false;
+            //    if (IsAtStart) return false;
 
-        //    SetIndex(Index - 1);
-        //    return true;
+            //    SetIndex(Index - 1);
+            //    return true;
 
-            if (this.Index == 0)
+            if (Index == 0)
             {
                 return false;
             }
@@ -424,19 +425,19 @@ namespace Elements
                 {
                     return NullCharacter;
                 }
-                return Data.ToCharArray(Index + 1, 1)[0];
+                //return _data.ToCharArray(Index + 1, 1)[0];
+                return _data[Index + 1];
             }
         }
-        
+
         public char Previous
         {
             get
             {
-                if (Index < 1)
-                {
-                    return NullCharacter;
-                }
-                return this.Data.ToCharArray(this.Index - 1, 1)[0];
+                return Index < 1
+                    ? NullCharacter
+                    : _data[Index];
+                //return _data.ToCharArray(Index - 1, 1)[0];
             }
         }
 
@@ -446,7 +447,8 @@ namespace Elements
         /// <param name="data">The data.</param>
         private void SetData(string data)
         {
-            Data = data; //.ToCharArray();
+            //_data = data.ToCharArray();
+            _data = data;
         }
 
         /// <summary>
@@ -458,16 +460,16 @@ namespace Elements
             Length = data.Length;
         }
 
-        ///// <summary>
-        ///// Sets the index.
-        ///// </summary>
-        ///// <param name="index">The index.</param>
-        //private void SetIndex(int index)
-        //{
-        //    if (index < 0) throw new ArgumentOutOfRangeException("index");
+        /// <summary>
+        /// Sets the index.
+        /// </summary>
+        /// <param name="index">The index.</param>
+        private void SetIndex(int index)
+        {
+            if (index < 0) throw new ArgumentOutOfRangeException("index");
 
-        //    Index = index;
-        //}
+            Index = index;
+        }
 
         public void SkipWhiteSpace()
         {
@@ -494,14 +496,18 @@ namespace Elements
             {
                 index = 0;
             }
-            string str3 = Data.Substring(index, Index - index);
+            string str3 = _data.Substring(index, Index - index);
+            //string str3 = new string(_data, index, Index - index);
             int length = Index + num;
             if (length > Length - 1)
             {
                 length = Length - 1;
             }
-            string str4 = string.Concat(str1, Data.Substring(Index, 1), str2);
-            string str = (Index != Length - 1 ? Data.Substring(Index + 1, length - Index - 1) : "");
+            //string str4 = string.Concat(str1, _data.Substring(Index, 1), str2);
+            string str4 = string.Concat(str1, Substring(Index, 1), str2);
+
+            //string str = (Index != Length - 1 ? _data.Substring(Index + 1, length - Index - 1) : "");
+            string str = (Index != Length - 1 ? Substring(Index + 1, length - Index - 1) : "");
             return string.Concat(str3, str4, str);
         }
 
@@ -525,11 +531,11 @@ namespace Elements
         /// </exception>
         public string Substring(int startIndex, int length)
         {
-            return Data.Substring(startIndex, length);
+            return _data.Substring(startIndex, length);
 
-            //if(startIndex < 0) throw new ArgumentOutOfRangeException("startIndex", startIndex, "startIndex must be zero or greater");
+            //if (startIndex < 0) throw new ArgumentOutOfRangeException("startIndex", startIndex, "startIndex must be zero or greater");
             //if (startIndex + length > Length) throw new ArgumentOutOfRangeException("length", length, "The length when added to the startIndex must be less than the length of the buffer");
-            
+
             //return new string(Data, startIndex, length);
         }
 
@@ -541,22 +547,11 @@ namespace Elements
         /// </returns>
         public override string ToString()
         {
-            return Data;
+            return _data.ToString();
         }
 
         #endregion
 
-        public class ParsedCharacterClass
-        {
-            public int Count;
 
-            public string ErrorMessage = "";
-
-            public int[] LeftBracketIndex = new int[31];
-
-            public ParsedCharacterClass()
-            {
-            }
-        }
     }
 }

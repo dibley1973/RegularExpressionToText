@@ -138,7 +138,7 @@ namespace Elements
                                         }
                                         else
                                         {
-                                            this.Name = Backreference.AddNumber().ToString();
+                                            this.Name = BackReference.AddNumber().ToString();
                                             goto Label0;
                                         }
                                     }
@@ -177,16 +177,16 @@ namespace Elements
                                     {
                                         if (!int.TryParse(this.Name, out num))
                                         {
-                                            Backreference.AddName(this.Name);
+                                            BackReference.AddName(this.Name);
                                         }
                                         else
                                         {
-                                            Backreference.AddNumber(num);
+                                            BackReference.AddNumber(num);
                                         }
                                     }
                                     if (!int.TryParse(this.Name2, out num))
                                     {
-                                        if (Backreference.ContainsName(this.Name2))
+                                        if (BackReference.ContainsName(this.Name2))
                                         {
                                             goto Label0;
                                         }
@@ -196,7 +196,7 @@ namespace Elements
                                     }
                                     else
                                     {
-                                        if (Backreference.ContainsNumber(this.Name2))
+                                        if (BackReference.ContainsNumber(this.Name2))
                                         {
                                             goto Label0;
                                         }
@@ -222,7 +222,7 @@ namespace Elements
                     {
                         this.Type = GroupType.Named;
                         this.Name = str;
-                        Backreference.AddName(str);
+                        BackReference.AddName(str);
                         if (!this.IsValid)
                         {
                             this.Description = string.Concat("[", str, "] Invalid syntax for named group");
@@ -239,7 +239,7 @@ namespace Elements
                     {
                         this.Type = GroupType.Numbered;
                         this.Name = value1;
-                        Backreference.AddNumber(int.Parse(value1));
+                        BackReference.AddNumber(int.Parse(value1));
                         if (!this.IsValid)
                         {
                             this.Description = string.Concat("[", value1, "] Invalid syntax for numbered group");

@@ -28,7 +28,7 @@ namespace Elements
                 RegexOptions.IgnorePatternWhitespace);
         }
 
-        public SpecialCharacter(Backreference back)
+        public SpecialCharacter(BackReference back)
         {
             if (!back.IsOctal)
             {

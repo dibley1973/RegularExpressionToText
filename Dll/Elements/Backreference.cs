@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace Elements
 {
-    public class Backreference : Element
+    public class BackReference : Element
     {
 
         private static ArrayList Numbers;
@@ -53,18 +53,18 @@ namespace Elements
 
         public static bool NeedsSecondPass;
 
-        static Backreference()
+        static BackReference()
         {
-            Backreference.Numbers = new ArrayList();
-            Backreference.FirstPassNumbers = new ArrayList();
-            Backreference.Names = new ArrayList();
-            Backreference.BackrefRegex = new Regex("^k[<'](?<Named>\\w+)[>']|^(?<Octal>0[0-7]{0,2})|^(?<Backreference>[1-9](?=\\D|$))|^(?<Decimal>[1-9]\\d+)\r\n\r\n", RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.IgnorePatternWhitespace);
-            Backreference.OctalBackParseRegex = new Regex("^(?<Octal>[1-3][0-7]{0,2})|^(?<Octal>[4-7][0-7]?)\r\n\r\n", RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.IgnorePatternWhitespace);
-            Backreference.IsFirstPass = true;
-            Backreference.NeedsSecondPass = false;
+            BackReference.Numbers = new ArrayList();
+            BackReference.FirstPassNumbers = new ArrayList();
+            BackReference.Names = new ArrayList();
+            BackReference.BackrefRegex = new Regex("^k[<'](?<Named>\\w+)[>']|^(?<Octal>0[0-7]{0,2})|^(?<Backreference>[1-9](?=\\D|$))|^(?<Decimal>[1-9]\\d+)\r\n\r\n", RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.IgnorePatternWhitespace);
+            BackReference.OctalBackParseRegex = new Regex("^(?<Octal>[1-3][0-7]{0,2})|^(?<Octal>[4-7][0-7]?)\r\n\r\n", RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.IgnorePatternWhitespace);
+            BackReference.IsFirstPass = true;
+            BackReference.NeedsSecondPass = false;
         }
 
-        public Backreference()
+        public BackReference()
         {
             this.isOctal = false;
             this.isNamed = false;
@@ -73,41 +73,41 @@ namespace Elements
 
         public static void AddName(string name)
         {
-            if (!Backreference.Names.Contains(name))
+            if (!BackReference.Names.Contains(name))
             {
-                Backreference.Names.Add(name);
+                BackReference.Names.Add(name);
             }
         }
 
         public static void AddNamedCaptureNumbers()
         {
-            for (int i = 0; i < Backreference.Names.Count; i++)
+            for (int i = 0; i < BackReference.Names.Count; i++)
             {
-                Backreference.AddNumber();
+                BackReference.AddNumber();
             }
         }
 
         public static void AddNumber(int n)
         {
-            if (!Backreference.Numbers.Contains(n))
+            if (!BackReference.Numbers.Contains(n))
             {
-                Backreference.Numbers.Add(n);
+                BackReference.Numbers.Add(n);
             }
         }
 
 
         public static int AddNumber()
         {
-            if (Backreference.Numbers == null)
+            if (BackReference.Numbers == null)
             {
-                Backreference.AddNumber(1);
+                BackReference.AddNumber(1);
                 return 1;
             }
-            for (int i = 1; i <= Backreference.Numbers.Count + 1; i++)
+            for (int i = 1; i <= BackReference.Numbers.Count + 1; i++)
             {
-                if (!Backreference.Numbers.Contains(i))
+                if (!BackReference.Numbers.Contains(i))
                 {
-                    Backreference.AddNumber(i);
+                    BackReference.AddNumber(i);
                     return i;
                 }
             }
@@ -116,7 +116,7 @@ namespace Elements
 
         public static bool ContainsName(string name)
         {
-            return Backreference.Names.Contains(name);
+            return BackReference.Names.Contains(name);
         }
 
         public static bool ContainsNumber(string name)
@@ -125,29 +125,29 @@ namespace Elements
             {
                 return false;
             }
-            if (Backreference.IsFirstPass)
+            if (BackReference.IsFirstPass)
             {
-                return Backreference.Numbers.Contains(int.Parse(name));
+                return BackReference.Numbers.Contains(int.Parse(name));
             }
-            return Backreference.FirstPassNumbers.Contains(int.Parse(name));
+            return BackReference.FirstPassNumbers.Contains(int.Parse(name));
         }
 
         public static void InitializeSecondPass()
         {
-            Backreference.AddNamedCaptureNumbers();
-            Backreference.FirstPassNumbers = (ArrayList)Backreference.Numbers.Clone();
-            Backreference.Numbers.Clear();
-            Backreference.IsFirstPass = false;
-            Backreference.NeedsSecondPass = false;
+            BackReference.AddNamedCaptureNumbers();
+            BackReference.FirstPassNumbers = (ArrayList)BackReference.Numbers.Clone();
+            BackReference.Numbers.Clear();
+            BackReference.IsFirstPass = false;
+            BackReference.NeedsSecondPass = false;
         }
 
         public static bool NumbersContains(int n)
         {
-            if (Backreference.IsFirstPass)
+            if (BackReference.IsFirstPass)
             {
-                return Backreference.Numbers.Contains(n);
+                return BackReference.Numbers.Contains(n);
             }
-            return Backreference.FirstPassNumbers.Contains(n);
+            return BackReference.FirstPassNumbers.Contains(n);
         }
 
 
@@ -170,7 +170,7 @@ namespace Elements
                 buffer.Move(-1);
                 return false;
             }
-            Match match = Backreference.BackrefRegex.Match(buffer.GetToEnd());
+            Match match = BackReference.BackrefRegex.Match(buffer.GetToEnd());
             if (!match.Success)
             {
                 if (current != 'k')
@@ -192,11 +192,11 @@ namespace Elements
             this.Literal = string.Concat('\\', match.Value);
             if (str1 != "")
             {
-                if (Backreference.Names.Contains(str1))
+                if (BackReference.Names.Contains(str1))
                 {
                     this.Description = string.Concat(this.Named, str1);
                 }
-                else if (!int.TryParse(str1, out num) || !Backreference.NumbersContains(num))
+                else if (!int.TryParse(str1, out num) || !BackReference.NumbersContains(num))
                 {
                     this.Description = string.Concat(this.MissingName, str1);
                     this.IsValid = false;
@@ -225,7 +225,7 @@ namespace Elements
             {
                 if (value != "")
                 {
-                    if (!Backreference.NumbersContains(int.Parse(value)))
+                    if (!BackReference.NumbersContains(int.Parse(value)))
                     {
                         this.Description = string.Concat(this.MissingNumber, value);
                         this.IsValid = false;
@@ -240,7 +240,7 @@ namespace Elements
                     return true;
                 }
                 num = int.Parse(str);
-                if (Backreference.NumbersContains(num))
+                if (BackReference.NumbersContains(num))
                 {
                     this.Description = string.Concat(this.Numbered, str);
                     this.contents = str;
@@ -248,7 +248,7 @@ namespace Elements
                     base.ParseRepetitions(buffer);
                     return true;
                 }
-                match = Backreference.OctalBackParseRegex.Match(buffer.GetToEnd());
+                match = BackReference.OctalBackParseRegex.Match(buffer.GetToEnd());
                 if (!match.Success)
                 {
                     return false;
@@ -265,7 +265,7 @@ namespace Elements
             if (value != "")
             {
                 num = int.Parse(value);
-                if (Backreference.NumbersContains(num))
+                if (BackReference.NumbersContains(num))
                 {
                     this.Description = string.Concat(this.Numbered, value);
                     buffer.Move(match.Length);
@@ -273,7 +273,7 @@ namespace Elements
                     base.ParseRepetitions(buffer);
                     return true;
                 }
-                match = Backreference.OctalBackParseRegex.Match(buffer.GetToEnd());
+                match = BackReference.OctalBackParseRegex.Match(buffer.GetToEnd());
                 if (!match.Success)
                 {
                     return false;
@@ -295,7 +295,7 @@ namespace Elements
             {
                 string str2 = str.Substring(0, i);
                 num = int.Parse(str2);
-                if (Backreference.NumbersContains(num))
+                if (BackReference.NumbersContains(num))
                 {
                     this.Description = string.Concat(this.Numbered, str2);
                     this.Literal = string.Concat("\\", str2);
@@ -305,7 +305,7 @@ namespace Elements
                     return true;
                 }
             }
-            match = Backreference.OctalBackParseRegex.Match(buffer.GetToEnd());
+            match = BackReference.OctalBackParseRegex.Match(buffer.GetToEnd());
             if (!match.Success)
             {
                 return false;

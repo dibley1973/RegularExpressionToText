@@ -34,7 +34,7 @@ namespace Elements
                 this.IsValid = false;
             }
             int currentIndex = buffer.CurrentIndex;
-            CharacterBuffer.ParsedCharacterClass parsedCharacterClass = buffer.GetParsedCharacterClass();
+            ParsedCharacterClass parsedCharacterClass = buffer.GetParsedCharacterClass();
             if (parsedCharacterClass.Count == 0)
             {
                 this.Description = parsedCharacterClass.ErrorMessage;

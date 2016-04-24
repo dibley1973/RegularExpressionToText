@@ -22,7 +22,7 @@ namespace ExpressionParsingTests
         [TestInitialize]
         public void TestInitialise()
         {
-            Backreference.NeedsSecondPass = false;
+            BackReference.NeedsSecondPass = false;
         }
 
         [TestMethod]
@@ -218,14 +218,14 @@ namespace ExpressionParsingTests
     //private void Example()
     //{
     //    string regexText = "^SomeReggieHere$";
-    //    Backreference.NeedsSecondPass = false;
+    //    BackReference.NeedsSecondPass = false;
     //    bool optionsECMAScript = true;
     //    bool optionsIgnorePatternWhitespace = true;
     //    var exp = new Expression(regexText, 0, optionsIgnorePatternWhitespace,
     //        optionsECMAScript);
-    //    if (Backreference.NeedsSecondPass)
+    //    if (BackReference.NeedsSecondPass)
     //    {
-    //        Backreference.InitializeSecondPass();
+    //        BackReference.InitializeSecondPass();
     //        exp = new Expression(regexText, 0, optionsIgnorePatternWhitespace,
     //            optionsECMAScript);
     //    }

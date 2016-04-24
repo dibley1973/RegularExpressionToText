@@ -70,7 +70,7 @@ namespace Elements
                         }
                     case GroupType.Numbered:
                         {
-                            if (Backreference.ContainsName(str))
+                            if (BackReference.ContainsName(str))
                             {
                                 this.expType = Conditional.ExpType.NamedCapture;
                                 break;
@@ -78,7 +78,7 @@ namespace Elements
                             else if (int.TryParse(str, out num))
                             {
                                 this.expType = Conditional.ExpType.NumberedCapture;
-                                if (Backreference.ContainsNumber(str))
+                                if (BackReference.ContainsNumber(str))
                                 {
                                     break;
                                 }

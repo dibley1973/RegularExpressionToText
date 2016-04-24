@@ -237,8 +237,8 @@ namespace Elements
                             {
                                 if (!SpecialCharacter.NextIsWhitespace(charBuffer))
                                 {
-                                    Backreference backreference = new Backreference();
-                                    if (!backreference.Parse(charBuffer))
+                                    BackReference backReference = new BackReference();
+                                    if (!backReference.Parse(charBuffer))
                                     {
                                         NamedClass namedClass = new NamedClass();
                                         if (!namedClass.Parse(charBuffer))
@@ -254,15 +254,15 @@ namespace Elements
                                     }
                                     else
                                     {
-                                        Backreference.NeedsSecondPass = true;
-                                        if (!backreference.IsOctal)
+                                        BackReference.NeedsSecondPass = true;
+                                        if (!backReference.IsOctal)
                                         {
-                                            this.Add(backreference);
+                                            this.Add(backReference);
                                             continue;
                                         }
                                         else
                                         {
-                                            this.Add(new SpecialCharacter(backreference));
+                                            this.Add(new SpecialCharacter(backReference));
                                             continue;
                                         }
                                     }
@@ -392,7 +392,7 @@ namespace Elements
                                             else
                                             {
                                                 this.Add(conditional);
-                                                Backreference.NeedsSecondPass = true;
+                                                BackReference.NeedsSecondPass = true;
                                                 continue;
                                             }
                                         }
