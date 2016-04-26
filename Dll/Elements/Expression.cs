@@ -2,6 +2,7 @@
 using Elements.Enumerations;
 using System.Collections;
 using System.Text;
+using RegularExpressionToText.Collections;
 
 namespace Elements
 {

@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{BDBF49D5-017A-4902-B267-58FF9FDE2E5A}</ProjectGuid>
+    <ProjectGuid>{5407FD93-200D-45D8-8021-41526BC9F026}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ElementsTests</RootNamespace>
-    <AssemblyName>ElementsTests</AssemblyName>
+    <RootNamespace>RegularExpressionToText.Collections.Tests</RootNamespace>
+    <AssemblyName>RegularExpressionToText.Collections.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -50,18 +50,14 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Tests\ExpressionTests.cs" />
+    <Compile Include="TreeNodeTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tests\CharacterBufferTests.cs" />
+    <Compile Include="TreeNodeListTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Dll\Elements\RegularExpressionToText.Elements.csproj">
-      <Project>{2c39937a-3681-4cc6-877e-2bf2612026b1}</Project>
-      <Name>RegularExpressionToText.Elements</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Fakes\Fakes\Fakes.csproj">
-      <Project>{3fc25e7b-e017-435c-bb89-69e1f1f25bfc}</Project>
-      <Name>Fakes</Name>
+    <ProjectReference Include="..\Collections\RegularExpressionToText.Collections.csproj">
+      <Project>{06705ec8-5835-4e3e-9490-ed48dbd79855}</Project>
+      <Name>RegularExpressionToText.Collections</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

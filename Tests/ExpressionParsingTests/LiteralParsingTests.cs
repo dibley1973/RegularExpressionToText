@@ -1,6 +1,7 @@
 ﻿using Elements;
 using Elements.Enumerations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using RegularExpressionToText.Collections;
 
 namespace ExpressionParsingTests
 {
@@ -11,9 +12,11 @@ namespace ExpressionParsingTests
         const bool OptionsIgnorePatternWhitespace = true;
         const int DefaultOffSet = 0;
 
+        
         // A-Z{2}
         // (?<NumberOfGames>\d+)
         // (?<Person>[\w ]+)
+        // \b([A-Z]{1,2}\d[A-Z]|[A-Z]{1,2}\d{1,2})\ +\d[A-Z-[CIKMOV]]{2}\b - UK postal code
         // ([A-Z]){2}
         // (?=(?:.*?[A-Z]){2})
         // ^[0-9a-zA-Z!@#$%*()_+^&]*
@@ -36,7 +39,7 @@ namespace ExpressionParsingTests
             TreeNode[] nodes = expression.GetNodes();
 
             // ACT
-            var actual = nodes[0].Element.Description;
+            var actual = nodes[0].Tag.Description;
 
             // ASSERT
             Assert.AreEqual(1, nodes.Length);
@@ -211,9 +214,27 @@ namespace ExpressionParsingTests
             Assert.IsInstanceOfType(actual, typeof(Group));
             Assert.AreEqual(GroupType.SuffixPresent, ((Group)actuals[0].Element).Type);
         }
+
+        [TestMethod]
+        public void TwoAlternatives()
+        {
+            // ARRANGE
+            const string regex = @"[a-z]{1,2}\d[A-Z]|[A-Z]{1,2}\d{1,2}";
+            var expression = new Expression(regex, DefaultOffSet, OptionsIgnorePatternWhitespace, OptionsEcmaScript);
+
+            // ACT
+            var topLevelActuals = expression.GetNodes();
+
+            // ASSERT
+            Assert.AreEqual(1, topLevelActuals.Length);
+
+            var secondLevelActuals = topLevelActuals[0].Nodes;
+            Assert.AreEqual(2, secondLevelActuals.ChildCount);
+
+        }
     }
 
-
+    
 
     //private void Example()
     //{

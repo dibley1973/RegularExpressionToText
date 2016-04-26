@@ -316,7 +316,7 @@ namespace Elements
         {
             Match match = !IsEcma
                 ? WhiteSpace.FindWhiteSpace.Match(_data.ToString(), Index)
-                : WhiteSpace.FindECMAWhiteSpace.Match(_data.ToString(), Index);
+                : WhiteSpace.FindEcmaWhiteSpace.Match(_data.ToString(), Index);
 
             if (!match.Success)
             {

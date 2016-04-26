@@ -1,4 +1,6 @@
 ﻿
+using RegularExpressionToText.Collections;
+
 namespace Elements
 {
     public class SubExpression : Element

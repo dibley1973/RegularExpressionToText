@@ -1,14 +1,24 @@
 ﻿using System;
+using System.Collections.Generic;
 
-namespace Elements
+namespace RegularExpressionToText.Collections
 {
-    public class TreeNodeCollection // : IList, ICollection, IEnumerable
+    public class TreeNodeList
     {
-        private TreeNode owner;
+        private readonly List<TreeNode> _children;
+        private readonly TreeNode _owner;
 
-        internal TreeNodeCollection(TreeNode owner)
+        internal TreeNodeList(TreeNode owner)
+            : this(owner, new List<TreeNode>())
+        { }
+
+        internal TreeNodeList(TreeNode owner, List<TreeNode> children)
         {
-            this.owner = owner;
+            if (owner == null) throw new ArgumentNullException("owner");
+            if (children == null) throw new ArgumentNullException("children");
+
+            children = children;
+            _owner = owner;
         }
 
         private int AddInternal(TreeNode node, int delta)
@@ -55,8 +65,11 @@ namespace Elements
             return -1; // TODO Correct to something meaningful!
         }
 
+        public void AddRange(TreeNodeList nodes)
+        {
+        }
 
-        public virtual void AddRange(TreeNode[] nodes)
+        public void AddRange(TreeNode[] nodes)
         {
             if (nodes == null)
             {
@@ -84,5 +97,22 @@ namespace Elements
             //}
         }
 
+        public int ChildCount
+        {
+            get
+            {
+                return Children.Count;
+            }
+        }
+
+        protected internal List<TreeNode> Children
+        {
+            get { return _children; }
+        }
+
+        protected internal TreeNode Owner
+        {
+            get { return _owner; }
+        }
     }
 }

@@ -1,22 +1,20 @@
-﻿using Elements.Enumerations;
+﻿
+using System;
 
-namespace Elements
+namespace RegularExpressionToText.Collections
 {
     public class TreeNode
     {
+        private TreeNodeList _nodes;
         private string _text;
-        private TreeNodeCollection _nodes;
 
-        public TreeNodeCollection Nodes
+        public TreeNodeList Nodes
         {
             get
             {
-                return _nodes ?? (_nodes = new TreeNodeCollection(this));
+                return _nodes ?? (_nodes = new TreeNodeList(this));
             }
         }
-
-        public Element Element { get; set; }
-        public NodeType Type { get; set; }
 
         public TreeNode()
         {
@@ -25,8 +23,12 @@ namespace Elements
         public TreeNode(string text)
             : this()
         {
+            if (string.IsNullOrWhiteSpace(text)) throw new ArgumentNullException("text");
+
             _text = text;
         }
+
+        public object Tag { get; set; }
 
         public string Text
         {

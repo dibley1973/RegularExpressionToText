@@ -54,9 +54,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Dll\Elements\Elements.csproj">
+    <ProjectReference Include="..\..\Collections\RegularExpressionToText.Collections.csproj">
+      <Project>{06705ec8-5835-4e3e-9490-ed48dbd79855}</Project>
+      <Name>RegularExpressionToText.Collections</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Dll\Elements\RegularExpressionToText.Elements.csproj">
       <Project>{2c39937a-3681-4cc6-877e-2bf2612026b1}</Project>
-      <Name>Elements</Name>
+      <Name>RegularExpressionToText.Elements</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

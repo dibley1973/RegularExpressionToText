@@ -1,6 +1,9 @@
 ﻿namespace Elements.Enumerations
 {
-    public enum NodeType
+    /// <summary>
+    /// Represents the types of regular expression elements
+    /// </summary>
+    public enum ElementType
     {
         Expression,
         Character,

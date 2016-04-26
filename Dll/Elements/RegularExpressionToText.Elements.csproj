@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Elements</RootNamespace>
-    <AssemblyName>Elements</AssemblyName>
+    <AssemblyName>RegularExpressionToText.Elements</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -51,14 +51,14 @@
     <Compile Include="Element.cs" />
     <Compile Include="Enumerations\CharType.cs" />
     <Compile Include="Enumerations\GroupType.cs" />
-    <Compile Include="Enumerations\NodeType.cs" />
+    <Compile Include="Enumerations\ElementType.cs" />
     <Compile Include="Expression.cs" />
     <Compile Include="ExpressionList.cs" />
     <Compile Include="Group.cs" />
     <Compile Include="NamedClass.cs" />
     <Compile Include="ParsedCharacterClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RegularExpressions\WhiteSpace.cs" />
+    <Compile Include="RegularExpressionStrings\WhiteSpace.cs" />
     <Compile Include="Repeat.cs" />
     <Compile Include="Resources\WhiteSpace.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -67,8 +67,6 @@
     </Compile>
     <Compile Include="SpecialCharacter.cs" />
     <Compile Include="SubExpression.cs" />
-    <Compile Include="TreeNode.cs" />
-    <Compile Include="TreeNodeCollection.cs" />
     <Compile Include="UnicodeCategories.cs" />
     <Compile Include="Utility.cs" />
     <Compile Include="WhiteSpace.cs" />
@@ -78,6 +76,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>WhiteSpace.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Collections\RegularExpressionToText.Collections.csproj">
+      <Project>{06705ec8-5835-4e3e-9490-ed48dbd79855}</Project>
+      <Name>RegularExpressionToText.Collections</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

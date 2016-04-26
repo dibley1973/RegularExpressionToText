@@ -4,14 +4,14 @@ namespace Elements
 {
     public class WhiteSpace : Element
     {
-        public static Regex FindWhiteSpace;
+        public static readonly Regex FindWhiteSpace;
 
-        public static Regex FindECMAWhiteSpace;
+        public static readonly Regex FindEcmaWhiteSpace;
 
         static WhiteSpace()
         {
-            FindWhiteSpace = new Regex(RegularExpressions.WhiteSpace.FindWhiteSpace, RegexOptions.Compiled);
-            FindECMAWhiteSpace = new Regex(RegularExpressions.WhiteSpace.FindECMAWhiteSpace, RegexOptions.Compiled | RegexOptions.ECMAScript);
+            FindWhiteSpace = new Regex(RegularExpressionStrings.WhiteSpace.FindWhiteSpace, RegexOptions.Compiled);
+            FindEcmaWhiteSpace = new Regex(RegularExpressionStrings.WhiteSpace.FindEcmaWhiteSpace, RegexOptions.Compiled | RegexOptions.ECMAScript);
         }
 
         public WhiteSpace(int originalIndex, string text)

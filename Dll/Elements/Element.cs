@@ -1,6 +1,7 @@
 ﻿
 using System.Text.RegularExpressions;
 using Elements.Enumerations;
+using RegularExpressionToText.Collections;
 
 namespace Elements
 {
@@ -168,10 +169,10 @@ namespace Elements
 
         public static void SetNode(TreeNode node, Element element)
         {
-            node.Element = element;
+            node.Tag = element;
             if (element.IsValid)
             {
-                node.Type = NodeType.Character;
+                //node. = ElementType.Character;
                 //node.ImageIndex = 2;
                 //node.SelectedImageIndex = 2;
                 return;
