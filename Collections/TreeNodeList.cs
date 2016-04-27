@@ -17,7 +17,7 @@ namespace RegularExpressionToText.Collections
             if (owner == null) throw new ArgumentNullException("owner");
             if (children == null) throw new ArgumentNullException("children");
 
-            children = children;
+            _children = children;
             _owner = owner;
         }
 

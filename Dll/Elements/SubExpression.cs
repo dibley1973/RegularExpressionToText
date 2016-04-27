@@ -43,7 +43,7 @@ namespace Elements
         public override TreeNode<Element> GetNode()
         {
             TreeNode<Element> treeNode;
-            TreeNode<Expression>[] nodes = this.Exp.GetNodes();
+            TreeNode<Element>[] nodes = this.Exp.GetNodes();
             if ((int)nodes.Length > 1)
             {
                 treeNode = new TreeNode<Element>(this.Exp.Literal);

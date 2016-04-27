@@ -36,10 +36,10 @@ namespace ExpressionParsingTests
 
             const string expected = "Beginning of line or string";
             var expression = new Expression(regex, DefaultOffSet, OptionsIgnorePatternWhitespace, OptionsEcmaScript);
-            TreeNode<Expression>[] nodes = expression.GetNodes();
+            TreeNode<Element>[] nodes = expression.GetNodes();
 
             // ACT
-            var actual = nodes[0].Tag[0].Description;
+            var actual = nodes[0].Tag.Description;
 
             // ASSERT
             Assert.AreEqual(1, nodes.Length);
@@ -57,7 +57,7 @@ namespace ExpressionParsingTests
             TreeNode<Element>[] nodes = expression.GetNodes();
 
             // ACT
-            var actual = nodes[0].Tag[0].Description;
+            var actual = nodes[0].Tag.Description;
 
             // ASSERT
             Assert.AreEqual(1, nodes.Length);
@@ -78,8 +78,8 @@ namespace ExpressionParsingTests
             Assert.AreEqual(2, actuals.Length);
             var actual1 = actuals[0].Tag;
             var actual2 = actuals[1].Tag;
-            Assert.AreEqual("Beginning of line or string", actual1[0].Description);
-            Assert.AreEqual("End of line or string", actual2[0].Description);
+            Assert.AreEqual("Beginning of line or string", actual1.Description);
+            Assert.AreEqual("End of line or string", actual2.Description);
         }
 
         [TestMethod]
@@ -94,9 +94,9 @@ namespace ExpressionParsingTests
 
             // ASSERT
             Assert.AreEqual(3, actuals.Length);
-            Assert.AreEqual("Beginning of line or string", actuals[0].Tag[0].Description);
-            Assert.AreEqual("a", actuals[1].Tag[0].Description);
-            Assert.AreEqual("End of line or string", actuals[2].Tag[0].Description);
+            Assert.AreEqual("Beginning of line or string", actuals[0].Tag.Description);
+            Assert.AreEqual("a", actuals[1].Tag.Description);
+            Assert.AreEqual("End of line or string", actuals[2].Tag.Description);
         }
 
         [TestMethod]
@@ -112,8 +112,8 @@ namespace ExpressionParsingTests
             // ASSERT
             Assert.AreEqual(1, actuals.Length);
             var actual = actuals[0];
-            Assert.IsInstanceOfType(actual.Tag[0], typeof(SpecialCharacter));
-            Assert.AreEqual("Any character", ((SpecialCharacter)actual.Tag[0]).Description);
+            Assert.IsInstanceOfType(actual.Tag, typeof(SpecialCharacter));
+            Assert.AreEqual("Any character", ((SpecialCharacter)actual.Tag).Description);
         }
 
         [TestMethod]
@@ -129,8 +129,8 @@ namespace ExpressionParsingTests
             // ASSERT
             Assert.AreEqual(1, actuals.Length);
             var actual = actuals[0];
-            Assert.IsInstanceOfType(actual.Tag[0], typeof(SpecialCharacter));
-            Assert.AreEqual("Any digit", ((SpecialCharacter)actual.Tag[0]).Description);
+            Assert.IsInstanceOfType(actual.Tag, typeof(SpecialCharacter));
+            Assert.AreEqual("Any digit", ((SpecialCharacter)actual.Tag).Description);
         }
 
         [TestMethod]
@@ -146,8 +146,8 @@ namespace ExpressionParsingTests
             // ASSERT
             Assert.AreEqual(1, actuals.Length);
             var actual = actuals[0];
-            Assert.IsInstanceOfType(actual.Tag[0], typeof(Group));
-            Assert.AreEqual("Any digit", ((Group)actual.Tag[0]).Content.Exp[0].Description);
+            Assert.IsInstanceOfType(actual.Tag, typeof(Group));
+            Assert.AreEqual("Any digit", ((Group)actual.Tag).Content.Exp[0].Description);
         }
 
         [TestMethod]
@@ -162,7 +162,7 @@ namespace ExpressionParsingTests
 
             // ASSERT
             Assert.AreEqual(1, actuals.Length);
-            var actual = actuals[0].Tag[0];
+            var actual = actuals[0].Tag;
             Assert.AreEqual("Any character in this class: [0-9]", actual.Description);
         }
 
@@ -178,9 +178,9 @@ namespace ExpressionParsingTests
 
             // ASSERT
             Assert.AreEqual(3, actuals.Length);
-            Assert.AreEqual("A", actuals[0].Tag[0].Description);
-            Assert.AreEqual("-", actuals[1].Tag[0].Description);
-            Assert.AreEqual("Z", actuals[2].Tag[0].Description);
+            Assert.AreEqual("A", actuals[0].Tag.Description);
+            Assert.AreEqual("-", actuals[1].Tag.Description);
+            Assert.AreEqual("Z", actuals[2].Tag.Description);
         }
 
         [TestMethod]
@@ -195,7 +195,7 @@ namespace ExpressionParsingTests
 
             // ASSERT
             Assert.AreEqual(1, actuals.Length);
-            var actual = actuals[0].Tag[0];
+            var actual = actuals[0].Tag;
             Assert.IsInstanceOfType(actual, typeof(Group));
             Assert.AreEqual("AnimalName", ((Group)actual).Name);
         }
@@ -212,9 +212,9 @@ namespace ExpressionParsingTests
 
             // ASSERT
             Assert.AreEqual(1, actuals.Length);
-            var actual = actuals[0].Tag[0];
+            var actual = actuals[0].Tag;
             Assert.IsInstanceOfType(actual, typeof(Group));
-            Assert.AreEqual(GroupType.SuffixPresent, ((Group)actuals[0].Tag[0]).Type);
+            Assert.AreEqual(GroupType.SuffixPresent, ((Group)actuals[0].Tag).Type);
         }
 
         [TestMethod]

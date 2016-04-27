@@ -40,7 +40,7 @@ namespace RegularExpressionToText.Collections.Tests
         public void Tag_AfterInstantiation_ReturnsNull()
         {
             // ARRANGE
-            var treeNode = new TreeNode<byte>();
+            var treeNode = new TreeNode<string>();
 
             // ACT
             var actual = treeNode.Tag;

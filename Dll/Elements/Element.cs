@@ -36,10 +36,10 @@ namespace Elements
             RepeatType = Repeat.Once;
         }
 
-        public virtual TreeNode<Expression> GetNode()
+        public virtual TreeNode<Element> GetNode()
         {
-            TreeNode<Expression> treeNode = new TreeNode<Expression>(this.ToString());
-            Element.SetNode(treeNode, this);
+            TreeNode<Element> treeNode = new TreeNode<Element>(ToString());
+            SetNode(treeNode, this);
             return treeNode;
         }
 
