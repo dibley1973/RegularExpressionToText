@@ -3,16 +3,16 @@ using System;
 
 namespace RegularExpressionToText.Collections
 {
-    public class TreeNode
+    public class TreeNode<T>
     {
-        private TreeNodeList _nodes;
+        private TreeNodeList<T> _nodes;
         private string _text;
 
-        public TreeNodeList Nodes
+        public TreeNodeList<T> Nodes
         {
             get
             {
-                return _nodes ?? (_nodes = new TreeNodeList(this));
+                return _nodes ?? (_nodes = new TreeNodeList<T>(this));
             }
         }
 
@@ -28,7 +28,7 @@ namespace RegularExpressionToText.Collections
             _text = text;
         }
 
-        public object Tag { get; set; }
+        public T Tag { get; set; }
 
         public string Text
         {

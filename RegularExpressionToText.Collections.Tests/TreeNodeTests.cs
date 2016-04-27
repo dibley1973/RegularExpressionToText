@@ -11,7 +11,7 @@ namespace RegularExpressionToText.Collections.Tests
         public void Constructor_WhenInstantiatedWithNullText_ThrowsException()
         {
             // ACT
-            var treeNode = new TreeNode(null);
+            var treeNode = new TreeNode<byte>(null);
         }
 
         [TestMethod]
@@ -19,14 +19,14 @@ namespace RegularExpressionToText.Collections.Tests
         public void Constructor_WhenInstantiatedWithemptyText_ThrowsException()
         {
             // ACT
-            var treeNode = new TreeNode("");
+            var treeNode = new TreeNode<byte>("");
         }
 
         [TestMethod]
         public void Nodes_AfterInstantiation_ReturnsEmptyList()
         {
             // ARRANGE
-            var treeNode = new TreeNode();
+            var treeNode = new TreeNode<byte>();
 
             // ACT
             var actual = treeNode.Nodes;
@@ -40,7 +40,7 @@ namespace RegularExpressionToText.Collections.Tests
         public void Tag_AfterInstantiation_ReturnsNull()
         {
             // ARRANGE
-            var treeNode = new TreeNode();
+            var treeNode = new TreeNode<byte>();
 
             // ACT
             var actual = treeNode.Tag;
@@ -54,7 +54,7 @@ namespace RegularExpressionToText.Collections.Tests
         {
             // ARRANGE
             byte[] expected = { 1, 2, 3 };
-            var treeNode = new TreeNode { Tag = expected };
+            var treeNode = new TreeNode<byte[]> { Tag = expected };
 
             // ACT
             var actual = treeNode.Tag;
@@ -68,7 +68,7 @@ namespace RegularExpressionToText.Collections.Tests
         public void Text_AfterInstantiationWithoutText_ReturnsEmptyString()
         {
             // ARRANGE
-            var treeNode = new TreeNode();
+            var treeNode = new TreeNode<byte>();
 
             // ACT
             var actual = treeNode.Text;
@@ -82,7 +82,7 @@ namespace RegularExpressionToText.Collections.Tests
         {
             // ARRANGE
             const string expected = "Yo!";
-            var treeNode = new TreeNode(expected);
+            var treeNode = new TreeNode<byte>(expected);
 
             // ACT
             var actual = treeNode.Text;
@@ -96,7 +96,7 @@ namespace RegularExpressionToText.Collections.Tests
         {
             // ARRANGE
             const string expected = "Yo!";
-            var treeNode = new TreeNode(expected)
+            var treeNode = new TreeNode<byte>(expected)
             {
                 Text = expected
             };

@@ -3,16 +3,16 @@ using System.Collections.Generic;
 
 namespace RegularExpressionToText.Collections
 {
-    public class TreeNodeList
+    public class TreeNodeList<T>
     {
-        private readonly List<TreeNode> _children;
-        private readonly TreeNode _owner;
+        private readonly List<TreeNode<T>> _children;
+        private readonly TreeNode<T> _owner;
 
-        internal TreeNodeList(TreeNode owner)
-            : this(owner, new List<TreeNode>())
+        internal TreeNodeList(TreeNode<T> owner)
+            : this(owner, new List<TreeNode<T>>())
         { }
 
-        internal TreeNodeList(TreeNode owner, List<TreeNode> children)
+        internal TreeNodeList(TreeNode<T> owner, List<TreeNode<T>> children)
         {
             if (owner == null) throw new ArgumentNullException("owner");
             if (children == null) throw new ArgumentNullException("children");
@@ -21,7 +21,7 @@ namespace RegularExpressionToText.Collections
             _owner = owner;
         }
 
-        private int AddInternal(TreeNode node, int delta)
+        private int AddInternal(TreeNode<T> node, int delta)
         {
             if (node == null)
             {
@@ -65,11 +65,11 @@ namespace RegularExpressionToText.Collections
             return -1; // TODO Correct to something meaningful!
         }
 
-        public void AddRange(TreeNodeList nodes)
+        public void AddRange(TreeNodeList<T> nodes)
         {
         }
 
-        public void AddRange(TreeNode[] nodes)
+        public void AddRange(TreeNode<T>[] nodes)
         {
             if (nodes == null)
             {
@@ -105,12 +105,12 @@ namespace RegularExpressionToText.Collections
             }
         }
 
-        protected internal List<TreeNode> Children
+        protected internal List<TreeNode<T>> Children
         {
             get { return _children; }
         }
 
-        protected internal TreeNode Owner
+        protected internal TreeNode<T> Owner
         {
             get { return _owner; }
         }

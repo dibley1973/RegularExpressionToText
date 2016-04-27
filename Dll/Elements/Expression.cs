@@ -139,7 +139,7 @@ namespace Elements
             base.List.Add(element);
         }
 
-        public TreeNode[] GetNodes()
+        public TreeNode<Element>[] GetNodes()
         {
             ArrayList arrayLists = new ArrayList();
             if (this.alternatives.Count == 0)
@@ -159,10 +159,10 @@ namespace Elements
             }
 
 
-            TreeNode[] treeNodeArray = new TreeNode[arrayLists.Count];
+            TreeNode<Element>[] treeNodeArray = new TreeNode<Element>[arrayLists.Count];
             for (int i = 0; i < arrayLists.Count; i++)
             {
-                TreeNode item = (TreeNode)arrayLists[i];
+                TreeNode<Element> item = (TreeNode<Element>)arrayLists[i];
                 //this.Recolor(item);
                 treeNodeArray[i] = item;
             }

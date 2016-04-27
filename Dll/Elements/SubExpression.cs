@@ -40,19 +40,19 @@ namespace Elements
             //this.Image = ImageType.Expression;
         }
 
-        public override TreeNode GetNode()
+        public override TreeNode<Element> GetNode()
         {
-            TreeNode treeNode;
-            TreeNode[] nodes = this.Exp.GetNodes();
+            TreeNode<Element> treeNode;
+            TreeNode<Expression>[] nodes = this.Exp.GetNodes();
             if ((int)nodes.Length > 1)
             {
-                treeNode = new TreeNode(this.Exp.Literal);
+                treeNode = new TreeNode<Element>(this.Exp.Literal);
                 treeNode.Nodes.AddRange(this.Exp.GetNodes());
                 Element.SetNode(treeNode, this);
             }
             else if ((int)nodes.Length != 1)
             {
-                treeNode = new TreeNode("NULL");
+                treeNode = new TreeNode<Element>("NULL");
                 Element.SetNode(treeNode, this);
             }
             else

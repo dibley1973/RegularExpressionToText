@@ -36,9 +36,9 @@ namespace Elements
             RepeatType = Repeat.Once;
         }
 
-        public virtual TreeNode GetNode()
+        public virtual TreeNode<Expression> GetNode()
         {
-            TreeNode treeNode = new TreeNode(this.ToString());
+            TreeNode<Expression> treeNode = new TreeNode<Expression>(this.ToString());
             Element.SetNode(treeNode, this);
             return treeNode;
         }
@@ -167,7 +167,7 @@ namespace Elements
             this.End = buffer.IndexInOriginalBuffer;
         }
 
-        public static void SetNode(TreeNode node, Element element)
+        public static void SetNode(TreeNode<Element> node, Element element)
         {
             node.Tag = element;
             if (element.IsValid)
