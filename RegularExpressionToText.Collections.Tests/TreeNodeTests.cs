@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace RegularExpressionToText.Collections.Tests
 {
@@ -11,7 +11,8 @@ namespace RegularExpressionToText.Collections.Tests
         public void Constructor_WhenInstantiatedWithNullText_ThrowsException()
         {
             // ACT
-            var treeNode = new TreeNode<byte>(null);
+            // ReSharper disable once ObjectCreationAsStatement
+            new TreeNode<byte>(null);
         }
 
         [TestMethod]
@@ -19,7 +20,8 @@ namespace RegularExpressionToText.Collections.Tests
         public void Constructor_WhenInstantiatedWithemptyText_ThrowsException()
         {
             // ACT
-            var treeNode = new TreeNode<byte>("");
+            // ReSharper disable once ObjectCreationAsStatement
+            new TreeNode<byte>("");
         }
 
         [TestMethod]

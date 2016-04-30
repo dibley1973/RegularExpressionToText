@@ -229,10 +229,8 @@ namespace ExpressionParsingTests
 
             // ASSERT
             Assert.AreEqual(1, topLevelActuals.Length);
-
-            var secondLevelActuals = topLevelActuals[0].Nodes;
-            Assert.AreEqual(2, secondLevelActuals.ChildCount);
-
+            var alternatives = ((Alternatives) (topLevelActuals[0].Tag));
+            Assert.AreEqual(2, alternatives.Count);
         }
     }
 
