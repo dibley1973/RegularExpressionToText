@@ -214,10 +214,10 @@ namespace Elements
                         return parsedCharacterClass;
                     }
                 }
-                flag1 = (flag || CurrentCharacter != '-' ? false : true);
+                flag1 = (!flag && CurrentCharacter == '-');
                 if (flag || CurrentCharacter != ']')
                 {
-                    flag = (CurrentCharacter != '\\' ? false : !flag);
+                    flag = (CurrentCharacter == '\\' && !flag);
                 }
                 else
                 {
@@ -246,7 +246,7 @@ namespace Elements
                     parsedCharacterClass.Count = 0;
                     return parsedCharacterClass;
                 }
-                if (CurrentCharacter != ']')
+                if (CurrentCharacter != Characters.SquareBracketClosed)
                 {
                     parsedCharacterClass.ErrorMessage = "Syntax error in character class subtraction";
                     parsedCharacterClass.Count = 0;

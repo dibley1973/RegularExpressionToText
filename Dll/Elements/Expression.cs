@@ -208,24 +208,18 @@ namespace Elements
             while (!charBuffer.IsAtEnd)
             {
                 int indexInOriginalBuffer = charBuffer.IndexInOriginalBuffer;
-                if (this.IgnoreWhitespace)
-                {
-                    string whiteSpace = charBuffer.GetWhiteSpace();
-                    if (whiteSpace.Length > 0)
-                    {
-                        this.Add(new WhiteSpace(indexInOriginalBuffer, whiteSpace));
-                    }
-                }
-                if (charBuffer.IsAtEnd)
-                {
-                    break;
-                }
+
+                HandleWhiteSpace(charBuffer, indexInOriginalBuffer);
+                if (charBuffer.IsAtEnd) break;
+
                 char current = charBuffer.CurrentCharacter;
                 if (current > '.')
                 {
                     if (current == '?')
                     {
-                        goto Label0;
+                        //goto Label0;
+                        AddMisplacedQuantifier(charBuffer);
+                        goto Label2;
                     }
                     switch (current)
                     {
@@ -280,7 +274,9 @@ namespace Elements
                             }
                         case '\u005E':
                             {
-                                goto Label1;
+                                //goto Label1;
+                                AddSpecialCharacter(charBuffer);
+                                goto Label2;
                             }
                         default:
                             {
@@ -339,7 +335,9 @@ namespace Elements
                         case '\n':
                         case '\r':
                             {
-                                goto Label1;
+                                //goto Label1;
+                                AddSpecialCharacter(charBuffer);
+                                goto Label2;
                             }
                         case '\v':
                         case '\f':
@@ -354,7 +352,9 @@ namespace Elements
                                     case '$':
                                     case '.':
                                         {
-                                            goto Label1;
+                                            //goto Label1;
+                                            AddSpecialCharacter(charBuffer);
+                                            goto Label2;
                                         }
                                     case '#':
                                         {
@@ -410,20 +410,47 @@ namespace Elements
                                     case '*':
                                     case '+':
                                         {
-                                            goto Label0;
+                                            //goto Label0;
+                                            AddMisplacedQuantifier(charBuffer);
+                                            goto Label2;
                                         }
                                 }
                                 break;
                             }
                     }
                 }
-                this.Add(new Character(charBuffer));
+                Add(new Character(charBuffer));
             }
-            //if (worker != null && worker.CancellationPending)
-            //{
-            //    this.Cancel = true;
-            //    return;
-            //}
+
+            HandleAlternatives(charBuffer);
+
+            //Label0:
+        //    AddMisplacedQuantifier(charBuffer);
+        //    goto Label2;
+
+        //Label1:
+        //    AddSpecialCharacter(charBuffer);
+        //    goto Label2;
+        }
+
+        private void AddSpecialCharacter(CharacterBuffer charBuffer)
+        {
+            this.Add(new SpecialCharacter(charBuffer));
+        }
+
+        private void AddMisplacedQuantifier(CharacterBuffer charBuffer)
+        {
+            Character character;
+            character = new Character(charBuffer, true)
+            {
+                IsValid = false
+            };
+            character.Description = string.Concat(character.Literal, " Misplaced quantifier");
+            this.Add(character);
+        }
+
+        private void HandleAlternatives(CharacterBuffer charBuffer)
+        {
             if (this.alternatives.Count != 0)
             {
                 SubExpression alternative = new SubExpression(this.Clone());
@@ -435,19 +462,18 @@ namespace Elements
                 this.alternatives.Start = 0;
                 this.alternatives.End = charBuffer.IndexInOriginalBuffer;
             }
-            return;
-        Label0:
-            character = new Character(charBuffer, true)
+        }
+
+        private void HandleWhiteSpace(CharacterBuffer charBuffer, int indexInOriginalBuffer)
+        {
+            if (this.IgnoreWhitespace)
             {
-                //Description = string.Concat(character.Literal, " Misplaced quantifier"),
-                IsValid = false
-            };
-            character.Description = string.Concat(character.Literal, " Misplaced quantifier");
-            this.Add(character);
-            goto Label2;
-        Label1:
-            this.Add(new SpecialCharacter(charBuffer));
-            goto Label2;
+                string whiteSpace = charBuffer.GetWhiteSpace();
+                if (whiteSpace.Length > 0)
+                {
+                    this.Add(new WhiteSpace(indexInOriginalBuffer, whiteSpace));
+                }
+            }
         }
 
         public Expression Stringify()
