@@ -1,8 +1,9 @@
 ﻿
+using Elements.Constants;
 using Elements.Enumerations;
+using RegularExpressionToText.Collections;
 using System.Collections;
 using System.Text;
-using RegularExpressionToText.Collections;
 
 namespace Elements
 {
@@ -46,7 +47,7 @@ namespace Elements
         ///   <c>true</c> if this instance is ECMA; otherwise, <c>false</c>.
         /// </value>
         public bool IsEcma { get; set; }
-    
+
         /// <summary>
         /// The literal representation of the regular Expression.
         /// </summary>
@@ -204,31 +205,32 @@ namespace Elements
                 IgnoreWhiteSpace = IgnoreWhitespace,
                 IsEcma = IsEcma
             };
-        Label2:
+            //Label2:
             while (!charBuffer.IsAtEnd)
             {
                 int indexInOriginalBuffer = charBuffer.IndexInOriginalBuffer;
 
                 HandleWhiteSpace(charBuffer, indexInOriginalBuffer);
-                if (charBuffer.IsAtEnd) break;
+                if (charBuffer.IsAtEnd) break; // Exit the loop
 
                 char current = charBuffer.CurrentCharacter;
-                if (current > '.')
+                if (current > Characters.Dot)
                 {
-                    if (current == '?')
+                    if (current == Characters.QuestionMark)
                     {
                         //goto Label0;
                         AddMisplacedQuantifier(charBuffer);
-                        goto Label2;
+                        continue;
+                        // was goto Label2;
                     }
                     switch (current)
                     {
-                        case '[':
+                        case Characters.SquareBracketOpen:
                             {
                                 this.Add(new CharacterClass(charBuffer));
-                                continue;
+                                continue; // Move to next iteration
                             }
-                        case '\\':
+                        case Characters.BackSlash:
                             {
                                 if (!SpecialCharacter.NextIsWhitespace(charBuffer))
                                 {
@@ -239,12 +241,12 @@ namespace Elements
                                         if (!namedClass.Parse(charBuffer))
                                         {
                                             this.Add(new SpecialCharacter(charBuffer));
-                                            continue;
+                                            continue; // Move to next iteration
                                         }
                                         else
                                         {
                                             this.Add(namedClass);
-                                            continue;
+                                            continue; // Move to next iteration
                                         }
                                     }
                                     else
@@ -253,36 +255,37 @@ namespace Elements
                                         if (!backReference.IsOctal)
                                         {
                                             this.Add(backReference);
-                                            continue;
+                                            continue; // Move to next iteration
                                         }
                                         else
                                         {
                                             this.Add(new SpecialCharacter(backReference));
-                                            continue;
+                                            continue; // Move to next iteration
                                         }
                                     }
                                 }
                                 else
                                 {
                                     this.Add(new SpecialCharacter(charBuffer));
-                                    continue;
+                                    continue; // Move to next iteration
                                 }
                             }
-                        case ']':
+                        case Characters.SquareBracketClosed:
                             {
                                 break;
                             }
-                        case '\u005E':
+                        case Characters.CircumflexAccent:
                             {
                                 //goto Label1;
                                 AddSpecialCharacter(charBuffer);
-                                goto Label2;
+                                continue;
+                                // was goto Label2;
                             }
                         default:
                             {
                                 switch (current)
                                 {
-                                    case '{':
+                                    case Characters.CurlyBraceOpen:
                                         {
                                             character = new Character(charBuffer, true)
                                             {
@@ -302,7 +305,7 @@ namespace Elements
                                                 continue;
                                             }
                                         }
-                                    case '|':
+                                    case Characters.Pipe:
                                         {
                                             SubExpression subExpression = new SubExpression(this.Clone())
                                             {
@@ -337,7 +340,8 @@ namespace Elements
                             {
                                 //goto Label1;
                                 AddSpecialCharacter(charBuffer);
-                                goto Label2;
+                                continue;
+                                // was goto Label2;
                             }
                         case '\v':
                         case '\f':
@@ -354,7 +358,8 @@ namespace Elements
                                         {
                                             //goto Label1;
                                             AddSpecialCharacter(charBuffer);
-                                            goto Label2;
+                                            continue;
+                                            // was goto Label2;
                                         }
                                     case '#':
                                         {
@@ -397,7 +402,7 @@ namespace Elements
                                                 continue;
                                             }
                                         }
-                                    case ')':
+                                    case Characters.BracketClosed:
                                         {
                                             character = new Character(charBuffer)
                                             {
@@ -405,14 +410,15 @@ namespace Elements
                                                 Description = "Unbalanced parenthesis"
                                             };
                                             this.Add(character);
-                                            continue;
+                                            continue; // Move to next character
                                         }
-                                    case '*':
-                                    case '+':
+                                    case Characters.Star:
+                                    case Characters.Plus:
                                         {
                                             //goto Label0;
                                             AddMisplacedQuantifier(charBuffer);
-                                            goto Label2;
+                                            continue;
+                                            // was goto Label2;
                                         }
                                 }
                                 break;
@@ -425,12 +431,12 @@ namespace Elements
             HandleAlternatives(charBuffer);
 
             //Label0:
-        //    AddMisplacedQuantifier(charBuffer);
-        //    goto Label2;
+            //    AddMisplacedQuantifier(charBuffer);
+            //    goto Label2;
 
-        //Label1:
-        //    AddSpecialCharacter(charBuffer);
-        //    goto Label2;
+            //Label1:
+            //    AddSpecialCharacter(charBuffer);
+            //    goto Label2;
         }
 
         private void AddSpecialCharacter(CharacterBuffer charBuffer)
