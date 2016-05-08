@@ -100,6 +100,23 @@ namespace ExpressionParsingTests
         }
 
         [TestMethod]
+        public void ABackSlash()
+        {
+            // ARRANGE
+            const string regex = @"\\";
+            var expression = new Expression(regex, DefaultOffSet, OptionsIgnorePatternWhitespace, OptionsEcmaScript);
+
+            // ACT
+            var actuals = expression.GetNodes();
+
+            // ASSERT
+            Assert.AreEqual(1, actuals.Length);
+            var actual = actuals[0];
+            Assert.IsInstanceOfType(actual.Tag, typeof(SpecialCharacter));
+            Assert.AreEqual(@"Literal \", ((SpecialCharacter)actual.Tag).Description);
+        }
+
+        [TestMethod]
         public void AnyCharacter()
         {
             // ARRANGE

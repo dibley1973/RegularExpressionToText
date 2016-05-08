@@ -47,7 +47,7 @@ namespace Elements
             bool flag1;
             //this.Image = ImageType.Group;
             this.Start = buffer.IndexInOriginalBuffer;
-            bool flag2 = true;
+            bool needToParseRepititions = true;
             this.Literal = buffer.GetStringToMatchingParenthesis();
             if (this.Literal == "")
             {
@@ -59,7 +59,7 @@ namespace Elements
                 this.Type = GroupType.Invalid;
                 this.Content = new SubExpression("", 0, false, false);
                 this.IsValid = false;
-                flag2 = false;
+                needToParseRepititions = false;
                 this.Description = "Syntax error in group definition";
                 buffer.Move(1 - this.Literal.Length);
             }
@@ -108,7 +108,7 @@ namespace Elements
                             case "#":
                                 {
                                     this.Type = GroupType.Comment;
-                                    flag2 = false;
+                                    needToParseRepititions = false;
                                     goto Label0;
                                 }
                             case ">":
@@ -122,7 +122,7 @@ namespace Elements
                                     this.Content = new SubExpression("", 0, false, false);
                                     this.IsValid = false;
                                     this.Description = "Syntax error in group definition";
-                                    flag2 = false;
+                                    needToParseRepititions = false;
                                     buffer.Move(1 - this.Literal.Length);
                                     goto Label0;
                                 }
@@ -251,38 +251,52 @@ namespace Elements
                     this.DecodeOptions(str1);
                     if (this.Type == GroupType.OptionsOutside)
                     {
-                        flag2 = false;
+                        needToParseRepititions = false;
                     }
                 }
-            Label0:
-                bool ignoreWhiteSpace = buffer.IgnoreWhiteSpace;
-                if (this.Type == GroupType.OptionsInside || this.Type == GroupType.OptionsOutside)
-                {
-                    if (this.SetX == CheckState.Checked)
-                    {
-                        ignoreWhiteSpace = true;
-                    }
-                    else if (this.SetX == CheckState.Unchecked)
-                    {
-                        ignoreWhiteSpace = false;
-                    }
-                }
-                if (this.IsValid || this.Type == GroupType.Named || this.Type == GroupType.Numbered || this.Type == GroupType.Balancing)
-                {
-                    this.Content = new SubExpression(value2, start, ignoreWhiteSpace, buffer.IsEcma);
-                }
+
+            Label0: // TODO: Remove this and create proper logic!
+                SetContent(buffer, value2, start);
             }
             buffer.MoveNext();
-            if (!flag2)
+
+            if (needToParseRepititions)
             {
-                this.End = buffer.IndexInOriginalBuffer;
-                this.RepeatType = Repeat.Once;
+                ParseRepetitions(buffer);
             }
             else
             {
-                base.ParseRepetitions(buffer);
+                End = buffer.IndexInOriginalBuffer;
+                RepeatType = Repeat.Once;
             }
-            this.SetDescription();
+            SetDescription();
+        }
+
+        private void SetContent(CharacterBuffer buffer, string literal, int start)
+        {
+            var ignoreWhiteSpace = GetIgnoreWhiteSpace(buffer);
+            if (this.IsValid || this.Type == GroupType.Named || this.Type == GroupType.Numbered ||
+                this.Type == GroupType.Balancing)
+            {
+                this.Content = new SubExpression(literal, start, ignoreWhiteSpace, buffer.IsEcma);
+            }
+        }
+
+        private bool GetIgnoreWhiteSpace(CharacterBuffer buffer)
+        {
+            bool ignoreWhiteSpace = buffer.IgnoreWhiteSpace;
+            if (this.Type == GroupType.OptionsInside || this.Type == GroupType.OptionsOutside)
+            {
+                ignoreWhiteSpace = GetIgnoreWhiteSpaceFromSetX();
+            }
+            return ignoreWhiteSpace;
+        }
+
+        private bool GetIgnoreWhiteSpaceFromSetX()
+        {
+            bool ignoreWhiteSpace = SetX == CheckState.Checked;
+
+            return ignoreWhiteSpace;
         }
 
         private void DecodeOptions(string options)
